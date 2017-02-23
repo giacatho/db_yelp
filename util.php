@@ -25,63 +25,16 @@ function fDbGetAllBusinessWithCategory(
 }
 
 //-----------------------------------------------------------------------------------------
-function fInitCategoryTables() {
-	global $vConn;
-
-    $q = sprintf("DROP TABLE IF EXISTS tblCategory");
-	if (!mysqli_query($vConn, $q))
-		return false;
-	
-	$q = sprintf("CREATE TABLE tblCategory (
-					category VARCHAR(50) NOT NULL,
-					PRIMARY KEY(category)
-				)");
-	if (!mysqli_query($vConn, $q)) 
-		return false;
-	
-	$q = sprintf("DROP TABLE IF EXISTS tblBusinessCategory");
-	if (!mysqli_query($vConn, $q))
-		return false;
-	
-	$q = sprintf("CREATE TABLE tblBusinessCategory (
-					business_id VARCHAR(50) NOT NULL, 
-					category VARCHAR(50) NOT NULL,
-					PRIMARY KEY(business_id, category)
-				)");
-	if (!mysqli_query($vConn, $q)) 
-		return false;
-	
-	return true;
-}
-
-//-----------------------------------------------------------------------------------------
-function fDbInsertCategory(
-    $vCategory
+function fDbGetAllUserWithFriend(
 )
 {
     global $vConn;
-    
-    $q = sprintf("INSERT INTO tblCategory
-        SET category = '%s' 
-		ON DUPLICATE KEY UPDATE category=category", $vCategory);
-    
-    return mysqli_query($vConn, $q);
-}
 
-//-----------------------------------------------------------------------------------------
-function fDbInsertBusinessCategory(
-    $vBusinessId,
-	$vCategory
-)
-{
-    global $vConn;
-    
-    $q = sprintf("INSERT INTO tblBusinessCategory
-        SET business_id = '%s', category = '%s' 
-		ON DUPLICATE KEY UPDATE business_id=business_id, category=category", 
-			$vBusinessId, $vCategory);
-    
-    return mysqli_query($vConn, $q);
+    $q = sprintf("SELECT user_id, friends FROM tblUser");
+
+    $result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
 }
 
 //-----------------------------------------------------------------------------------------
