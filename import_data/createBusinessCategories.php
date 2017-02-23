@@ -21,8 +21,10 @@ foreach ($businesses as $business) {
 	
 	foreach ($categories as $yCategory) {
 		$category = getRealText($yCategory);
-		fDbInsertCategory($category);
-		fDbInsertBusinessCategory($business['business_id'], $category);
+		if ($category != '') {
+			fDbInsertCategory($category);
+			fDbInsertBusinessCategory($business['business_id'], $category);
+		}
 	}
 	$counter++;
 	

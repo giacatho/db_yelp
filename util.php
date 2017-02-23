@@ -44,7 +44,7 @@ function fInitCategoryTables() {
 		return false;
 	
 	$q = sprintf("CREATE TABLE tblBusinessCategory (
-					business_id VARCHAR(20) NOT NULL, 
+					business_id VARCHAR(50) NOT NULL, 
 					category VARCHAR(50) NOT NULL,
 					PRIMARY KEY(business_id, category)
 				)");
