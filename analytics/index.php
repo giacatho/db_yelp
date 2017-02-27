@@ -21,8 +21,7 @@ function fGetCoolestRestaurants(
 ) {
 	global $kDbSuccess, $kDbError;
 	
-	//$vRestaurants = fDbGetCoolestRestaurants($vArgs);
-	$vRestaurants = array();
+	$vRestaurants = fDbGetCoolestRestaurants();
 	
     return array(
         'errno' => $kDbSuccess,

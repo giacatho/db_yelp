@@ -30,6 +30,8 @@ function fBindBtns()
 //-----------------------------------------------------------------------------------------
 function fGetCoolestRestaurants()
 {
+	$('#wait').show();
+	
     $.ajax({
         type: 'POST',
         url: 'index.php',
@@ -38,10 +40,11 @@ function fGetCoolestRestaurants()
         },
         success: function (vData)
         {
+			$('#wait').hide();
             vData = JSON.parse(vData);
             if (vData.errno == kDbSuccess)
             {
-				fRenderChart(vData.restaurants);
+				fRenderChart(vData.data.restaurants);
             }
             else {
 				bootbox.alert("Can not retrieve data. Server error with errno: " + vData.errno);
@@ -50,65 +53,57 @@ function fGetCoolestRestaurants()
     });
 }
 
-//--
+//-----------------------------------------------------------------------------------------
 function fRenderChart(
 	vRestaurants	
 )
 {
-	Highcharts.chart('coolest_restaurant_chart', {
-    chart: {
-        type: 'spline',
-        inverted: true
-    },
-    title: {
-        text: 'Atmosphere Temperature by Altitude'
-    },
-    subtitle: {
-        text: 'According to the Standard Atmosphere Model'
-    },
-    xAxis: {
-        reversed: false,
+	var data, series, i, vRestaurant;
+	
+	data = {
+		chart: {
+            type: 'column'
+        },
         title: {
-            enabled: true,
-            text: 'Altitude'
+            text: 'Coolest Restaurants'
         },
-        labels: {
-            formatter: function () {
-                return this.value + 'km';
+        subtitle: {
+            text: ''
+        },
+		yAxis: {
+//            min: 0,
+            title: {
+                text: 'Cool Votes'
             }
         },
-        maxPadding: 0.05,
-        showLastLabel: true
-    },
-    yAxis: {
-        title: {
-            text: 'Temperature'
-        },
-        labels: {
-            formatter: function () {
-                return this.value + '°';
-            }
-        },
-        lineWidth: 2
-    },
-    legend: {
-        enabled: false
-    },
-    tooltip: {
-        headerFormat: '<b>{series.name}</b><br/>',
-        pointFormat: '{point.x} km: {point.y}°C'
-    },
-    plotOptions: {
-        spline: {
-            marker: {
-                enable: false
-            }
-        }
-    },
-    series: [{
-        name: 'Temperature',
-        data: [[0, 15], [10, -50], [20, -56.5], [30, -46.5], [40, -22.1],
-            [50, -2.5], [60, -27.7], [70, -55.7], [80, -76.5]]
-    }]
-});
+		xAxis: {
+			title: {
+				text: null
+			},
+			labels: {
+				enabled: false //default is true
+			}
+		},
+		tooltip: {
+			formatter: function() {
+				return '<b>' + this.series.name + '</b>. Cool votes: <b>' + this.y + '</b>';
+			}
+		},
+		legend: {
+			enabled: false
+		}
+	};
+		
+	series = [];
+	for (i = 0; i < vRestaurants.length; i++) {
+		vRestaurant = vRestaurants[i];
+		series.push({
+			name: vRestaurant['name'],
+			data: [parseInt(vRestaurant['coolness'])]
+		});
+	}
+	
+	data.series = series;
+	
+	Highcharts.chart('coolest_restaurant_chart', data);
 }

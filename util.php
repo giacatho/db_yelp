@@ -43,16 +43,25 @@ function fDbGetCoolestRestaurants(
 {
 	global $vConn;
 	
-	$q = sprintf(" 
-		SELECT r.business_id, r.name, SUM(r.cool) AS coolness
-		FROM review r 
-			JOIN business b
-			ON r.business_id = b.business_id
-		WHERE categories LIKE '%Restaurants%'
-		GROUP BY r.business_id, name
+	$q = " 
+		SELECT b.business_id, b.name, SUM(r.`vote.cool`) AS coolness
+		FROM tblReview r 
+			JOIN tblBusiness b
+				ON r.business_id = b.business_id
+			JOIN tblBusinessCategory c
+				ON c.business_id = b.business_id
+		WHERE c.category LIKE '%Restaurants%'
+		GROUP BY b.business_id, b.name
 		ORDER BY coolness DESC
 		LIMIT 25
-	");
+	";
+
+	// This is for testing, it's quick to run
+//	$q = sprintf(" 
+//		SELECT b.`business_id`, b.`name`, 30 AS coolness
+//			FROM tblBusiness b
+//		LIMIT 25
+//	");
 	
 	$result = mysqli_query($vConn, $q);
 
