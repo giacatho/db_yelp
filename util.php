@@ -38,6 +38,28 @@ function fDbGetAllUserWithFriend(
 }
 
 //-----------------------------------------------------------------------------------------
+function fDbGetCoolestRestaurants(
+)
+{
+	global $vConn;
+	
+	$q = sprintf(" 
+		SELECT r.business_id, r.name, SUM(r.cool) AS coolness
+		FROM review r 
+			JOIN business b
+			ON r.business_id = b.business_id
+		WHERE categories LIKE '%Restaurants%'
+		GROUP BY r.business_id, name
+		ORDER BY coolness DESC
+		LIMIT 25
+	");
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
 function fDbGetMIFUnitFromDescAndGrade(
     $vDesc,
     $vGradeId,

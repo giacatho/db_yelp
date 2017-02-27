@@ -4,3 +4,7 @@ $kDbHost = '127.0.0.1';
 $kDbUser = 'root';
 $kDbPassword = 'root';
 $kDbDatabase = 'yelp2';
+
+//-----------------------------------------------------------------------------------------
+$kDbSuccess = 540;
+$kDbError = 541;

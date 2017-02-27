@@ -1,0 +1,233 @@
+body {
+	margin-top: 20px;
+}
+
+/* Main */
+#main {
+	min-height: 750px;
+}
+
+/* Footer */
+#footer {
+	margin-top: 80px;	
+}
+
+#footer .banner-footer {
+	height: 60px;
+	background: #2c2d2d;
+}
+
+#footer .banner-footer .banner-footer-text{
+	line-height: 60px;
+	color: #e5e5e5;
+}
+
+#footer .banner-copyright {
+	background-color: #fff;
+	padding: 3px 20px;
+	height: 25px;
+}
+
+#footer .banner-copyright .copyright-text {
+	font-family: Arial;
+	color: #333;
+	font-size: 10px;
+}
+
+/* Section */
+.well.page-head {
+	padding: 15px;
+}
+
+.page-head h1 {
+	font-size: 17.5px;
+	margin: 10px 0;
+	font-weight: bold;
+	line-height: 20px;
+}
+
+/* Panel */
+.panel .panel-heading {
+	height: 50px;
+}
+
+.panel .panel-heading h2 {
+	line-height: 33px;
+}
+
+.panel-title {
+	font-weight: bold;
+}
+
+.panel-contain-table {
+	padding: 10px 10px 10px 10px;
+}
+
+/* Table */
+.my-table {
+	border: 1px solid #bbb;
+}
+
+.my-table thead {
+	background: #000;
+	color: #fff;
+}
+
+.my-table.table>thead>tr>td, 
+.my-table.table>tbody>tr>td
+{
+	border: 0px;
+}
+
+.my-table .no-record {
+	line-height: 100px;
+	background: #fff;
+}
+
+/* Form login and register */
+.form-signin {
+	max-width: 330px;
+}
+
+.form-register {
+	max-width: 650px;
+}
+
+.form-profile {
+	max-width: 650px;
+}
+
+.my-form {
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.my-form .form-signin-heading {
+	margin-bottom: 10px;
+}
+
+.my-form input {
+	margin-bottom: 5px;
+}
+
+.my-form .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	border-size: 16px;
+}
+
+label.required:after {
+	content: '*';
+	color: #f00;
+	margin-right: 3px;
+	margin-left: 1px;
+}
+
+/* Form trade stock */
+.stock-trade tbody tr:first-child td {
+	border-top: 0px;
+}
+
+.stock-trade tbody td:first-child {
+	padding-left: 15px;
+}
+
+.stock-trade input[type="text"] {
+	width: 100px;
+}
+
+.admin-model input[type="text"] {
+	width: 250px;
+}
+
+.admin-model input[type="password"] {
+	width: 250px;
+}
+
+.admin-model input[type="radio"] {
+	width: 60px;
+}
+
+.admin-model select {
+	width: 250px;
+}
+
+/* Ranking */
+.ranking .panel-body
+{
+	height: 300px;
+	overflow: auto;
+}
+
+.ranking .panel-heading {
+	background-color: #cdecff;
+	border-color: #76caff;
+}
+
+.userTables {
+	margin-right: 25px;
+	width: 500px;
+	margin: 10px;
+}
+
+/* News */
+.news .panel-body
+{
+	height: 300px;
+	overflow: auto;
+}
+
+.news .panel-heading {
+	background-color: #f3ffc4;
+	border-color: #a9e13d;
+}
+
+
+/* News - Google Feed */
+.news .gfg-root {
+	border: 0px !important;
+}
+
+.news .gfg-title {
+	display: none;
+}
+
+.news .gfg-listentry {
+	margin: 3px 0px;
+}
+
+.news .gfg-listentry-odd {
+	background-color: transparent;
+}
+
+/* Bootbox */
+.bootbox .modal-dialog .modal-body {
+	padding: 15px;
+}
+
+.bootbox .modal-dialog .modal-footer {
+	padding: 10px;
+}
+
+/* Mics */
+.ctr {
+	text-align: center !important;
+}
+
+.stock-price-input {
+	width: 100px;
+}
+
+/** RSS Feed  **/
+#feedControl {
+	margin-top : 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	width : 100%;
+	font-size: 12px;
+	color: #9CADD0;
+}
