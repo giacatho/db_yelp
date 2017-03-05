@@ -12,14 +12,15 @@
 	<script src="../lib/js/bootbox.min.js"></script>
 	<script src="../lib/js/highcharts-custom.js"></script>
 	<script src="../lib/js/const.js"></script>
-	<script src="index.js"></script>
+	<script src="const.js?v=3"></script>
+	<script src="index.js?v=4"></script>
 </head>
 <body>
 <div id="main" class="container">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="home">YEA</a>
+				<a class="navbar-brand" href="home">YelpMe</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -104,7 +105,7 @@
 	
 	<div class="search-result well">
 		<h4>Result for 'Test'</h4>
-		<div class="list-group business-group">
+		<div id="search-result-items" class="list-group business-group">
 			<a href="#" class="list-group-item">
 				<div class="media">
 					<div class="pull-left">
