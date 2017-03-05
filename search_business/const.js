@@ -18,3 +18,9 @@ var vHtmlSearchItem = "\
 		</div>\
 	</a>\
 ";
+
+var vHtmlLoadMore = "\
+	<a href='#' id='load-more-row' class='list-group-item ' style='text-align:center;'>\
+		<div id='load-more' style='width:300px; style='margin:0 auto;' class='btn btn-primary'>Load More</div>\
+	</a>\
+";

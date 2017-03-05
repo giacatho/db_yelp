@@ -5,22 +5,22 @@
 	<title>Search Business</title>
 	<link rel="icon" type="image/ico" href="../lib/images/favicon.ico"/>
 	<link rel="stylesheet" type="text/css" href="../lib/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="../lib/css/custom.css">
+	<link rel="stylesheet" type="text/css" href="../lib/css/custom.css?v=3">
 	
 	<script src="../lib/js/jquery.1.11.3.min.js"></script>
 	<script src="../lib/js/bootstrap.min.js"></script>
 	<script src="../lib/js/bootbox.min.js"></script>
 	<script src="../lib/js/highcharts-custom.js"></script>
 	<script src="../lib/js/const.js"></script>
-	<script src="const.js?v=3"></script>
-	<script src="index.js?v=4"></script>
+	<script src="const.js?v=4"></script>
+	<script src="index.js?v=6"></script>
 </head>
 <body>
 <div id="main" class="container">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="home">YelpMe</a>
+				<a class="navbar-brand" href="home">Yelp!Me</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -55,94 +55,59 @@
 		<h1>Search Business</h1>
 	</div>
 	
-	<div class="row">
-		<div class="col-xs-4">
-			<div class="input-group">
-				<input type="text" class="form-control" name="x" placeholder="Search term...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                </span>
+	<div class="well">
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="input-group">
+					<input id="search-term" type="text" class="form-control" placeholder="Search term...">
+					<span class="input-group-btn">
+						<button id="btn-search" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+					</span>
+				</div>
 			</div>
+			<div class="col-xs-8" style="text-align: right;">
+				<div id="drop_grade" class="btn-group drop_event">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span class="selection" key="0">All Grades</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" style="text-align:left">
+						<li><a key="0" href="#">All Grades</a></li>
+						<li class="divider"></li>
+						<li><a key="219" href="#">Grade K</a></li>
+						<li><a key="220" href="#">Grade 1</a></li>
+					</ul>
+				</div>
+				<div id="drop_types" class="btn-group drop_event">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span class="selection" key="0">All Types</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" style="text-align:left">
+						<li><a key="0" href="#">All Types</a></li>
+						<li class="divider"></li>
+						<li><a key="303" href="#">Learn</a></li>
+						<li><a key="302" href="#">Teach</a></li>
+					</ul>
+				</div>
+				<div id="drop_syllabus" class="btn-group drop_event _mb_mm_only">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span class="selection" key="0">All Standards</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" style="text-align:left">
+						<li><a key="0" href="#">All Standards</a></li>
+						<li class="divider"></li>
+						<li><a key="K.CC.3" href="#">K.CC.3</a></li>
+					</ul>
+				</div>
+			</div>		
 		</div>
-		<div class="col-xs-8" style="text-align: right;">
-			<div id="drop_grade" class="btn-group drop_event">
-				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-					<span class="selection" key="0">All Grades</span>
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" style="text-align:left">
-					<li><a key="0" href="#">All Grades</a></li>
-					<li class="divider"></li>
-					<li><a key="219" href="#">Grade K</a></li>
-					<li><a key="220" href="#">Grade 1</a></li>
-				</ul>
-			</div>
-			<div id="drop_types" class="btn-group drop_event">
-				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-					<span class="selection" key="0">All Types</span>
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" style="text-align:left">
-					<li><a key="0" href="#">All Types</a></li>
-					<li class="divider"></li>
-					<li><a key="303" href="#">Learn</a></li>
-					<li><a key="302" href="#">Teach</a></li>
-				</ul>
-			</div>
-			<div id="drop_syllabus" class="btn-group drop_event _mb_mm_only">
-				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-					<span class="selection" key="0">All Standards</span>
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" style="text-align:left">
-					<li><a key="0" href="#">All Standards</a></li>
-					<li class="divider"></li>
-					<li><a key="K.CC.3" href="#">K.CC.3</a></li>
-				</ul>
-			</div>
-		</div>		
 	</div>
-	
+		
 	<div class="search-result well">
-		<h4>Result for 'Test'</h4>
+		<h4 id="search-result-head"></h4>
 		<div id="search-result-items" class="list-group business-group">
-			<a href="#" class="list-group-item">
-				<div class="media">
-					<div class="pull-left">
-						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="...">
-					</div>
-					<div class="media-body">
-						<h4 class="media-heading">John Doe <small>Software Engineer at Facebook, Inc.</small></h4>
-						<div class="media-content">
-							<i class="fa fa-map-marker"></i> San Francisco, California, United States
-							<ul class="list-unstyled">
-								<li><i class="fa fa-skype"></i> jdoe.doe</li>
-								<li><i class="fa fa-mobile"></i> +63 912 212 2451</li>
-								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</a>
-
-			<a href="#" class="list-group-item">
-				<div class="media">
-					<div class="pull-left">
-						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar3.png" alt="...">
-					</div>
-					<div class="media-body">
-						<h4 class="media-heading">John Doe <small>Software Engineer at Facebook, Inc.</small></h4>
-						<div class="media-content">
-							<i class="fa fa-map-marker"></i> San Francisco, California, United States
-							<ul class="list-unstyled">
-								<li><i class="fa fa-skype"></i> jdoe.doe</li>
-								<li><i class="fa fa-mobile"></i> +63 912 212 2451</li>
-								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</a>
 		</div>
 	</div>
 </div>

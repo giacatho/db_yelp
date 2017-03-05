@@ -252,7 +252,7 @@ label.required:after {
     border: none;
 }
 
-.search-result .list-group-item {
+.search-result .business-group .list-group-item {
     -moz-transition: all 0.2s ease-out 0s;
     -webkit-transition: all 0.2s ease-out 0s;
     transition: all 0.2s ease-out 0s;
@@ -269,10 +269,6 @@ label.required:after {
 
 .search-result .business-group .media img {
     width: 80px;
-}
-
-.search-result .business-group .list-group-item {
-
 }
 
 .search-result .business-group .media-heading {
@@ -316,3 +312,7 @@ label.required:after {
     margin-bottom: 5px;
 }
 
+#load-more-row {
+	background-color: transparent;
+	margin-top: 0px;
+}
