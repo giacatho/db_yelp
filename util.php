@@ -38,37 +38,6 @@ function fDbGetAllUserWithFriend(
 }
 
 //-----------------------------------------------------------------------------------------
-function fDbGetCoolestRestaurants(
-)
-{
-	global $vConn;
-	
-	$q = " 
-		SELECT b.business_id, b.name, SUM(r.`vote.cool`) AS coolness
-		FROM tblReview r 
-			JOIN tblBusiness b
-				ON r.business_id = b.business_id
-			JOIN tblBusinessCategory c
-				ON c.business_id = b.business_id
-		WHERE c.category LIKE '%Restaurants%'
-		GROUP BY b.business_id, b.name
-		ORDER BY coolness DESC
-		LIMIT 25
-	";
-
-	// This is for testing, it's quick to run
-//	$q = sprintf(" 
-//		SELECT b.`business_id`, b.`name`, 30 AS coolness
-//			FROM tblBusiness b
-//		LIMIT 25
-//	");
-	
-	$result = mysqli_query($vConn, $q);
-
-    return fDbGrabDb($result);
-}
-
-//-----------------------------------------------------------------------------------------
 function fDbGetMIFUnitFromDescAndGrade(
     $vDesc,
     $vGradeId,
