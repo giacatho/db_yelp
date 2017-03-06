@@ -9,6 +9,10 @@ mysqli_set_charset($vConn, "utf8");
 
 //------------------------------------------------------------------------------
 switch ($_POST['cmd']) {
+	case 'get_dynamic_filters':
+		echo json_encode(fGetDynamicFilters($_POST));
+		break;
+	
 	case 'get_data':
 		echo json_encode(fGetData($_POST));
 		break;
@@ -17,6 +21,19 @@ switch ($_POST['cmd']) {
 		echo json_encode(array (
 			'errno' => 'no_cmd'
 		));
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetDynamicFilters(
+    $vArgs
+)
+{
+    global $kDbSuccess;
+    
+    return array(
+        'errno' => $kDbSuccess,
+        'categories' => fDbGetTopCategories()
+    );
 }
 
 //------------------------------------------------------------------------------
@@ -39,6 +56,28 @@ function fGetData(
 }
 
 //-----------------------------------------------------------------------------------------
+function fGetWhereString (
+	$vArgs
+)
+{
+	$vWhere = " 1 = 1 ";
+	
+	if ($vArgs['search']['term'] != '') {
+		$vWhere .= " AND a.name LIKE '%" .  $vArgs['search']['term'] . "%' ";
+	}
+	
+	if ($vArgs['search']['category'] != '') {
+		// Can use join in the main query, but that way needs the expensive DISTINCT
+		$vWhere .= " AND a.business_id IN (
+			SELECT b.business_id 
+			FROM tblBusinessCategory b
+			WHERE b.category = '" .  $vArgs['search']['category'] . "') ";
+	}
+	
+	return $vWhere;
+}
+
+//-----------------------------------------------------------------------------------------
 function fDbSearchBusiness(
 	$vArgs
 )
@@ -46,13 +85,30 @@ function fDbSearchBusiness(
 	global $vConn;
 	
 	$q = sprintf("
-		SELECT business_id, name, full_address, stars, review_count  
-		FROM tblBusiness
-		WHERE name LIKE '%%%s%%'
-		ORDER BY stars DESC, name
+		SELECT a.business_id, a.name, a.full_address, a.stars, a.review_count  
+		FROM tblBusiness a
+		WHERE %s
+		ORDER BY a.stars DESC, a.name
 		LIMIT %d, %d", 
-			$vArgs['search']['term'],
+			fGetWhereString($vArgs),
 			$vArgs['fetch_offset'], $vArgs['fetch_len']);
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
+function fDbGetTopCategories()
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT category, COUNT(business_id) business_count
+		FROM tblBusinessCategory
+		GROUP BY category
+		HAVING business_count > 1000
+		ORDER BY business_count DESC");
 	
 	$result = mysqli_query($vConn, $q);
 

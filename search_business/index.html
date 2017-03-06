@@ -12,6 +12,10 @@
 	<script src="../lib/js/bootbox.min.js"></script>
 	<script src="../lib/js/highcharts-custom.js"></script>
 	<script src="../lib/js/const.js"></script>
+	
+	<script src="../common/js/dropdown.js"></script>
+	<script src="../common/js/util.js"></script>
+	
 	<script src="const.js?v=4"></script>
 	<script src="index.js?v=6"></script>
 </head>
@@ -66,16 +70,12 @@
 				</div>
 			</div>
 			<div class="col-xs-8" style="text-align: right;">
-				<div id="drop_grade" class="btn-group drop_event">
+				<div id="drop_category" class="btn-group drop_event">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						<span class="selection" key="0">All Grades</span>
+						<span class="selection"></span>
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" style="text-align:left">
-						<li><a key="0" href="#">All Grades</a></li>
-						<li class="divider"></li>
-						<li><a key="219" href="#">Grade K</a></li>
-						<li><a key="220" href="#">Grade 1</a></li>
 					</ul>
 				</div>
 				<div id="drop_types" class="btn-group drop_event">

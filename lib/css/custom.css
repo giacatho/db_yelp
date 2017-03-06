@@ -316,3 +316,10 @@ label.required:after {
 	background-color: transparent;
 	margin-top: 0px;
 }
+
+/* Limit the filter dropdown height to 300px only */
+.dropdown-menu
+{
+    max-height: 300px;
+    overflow-y: auto;
+}

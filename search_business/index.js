@@ -11,10 +11,12 @@ $(document).ready(function ()
 function fBoot()
 {
 	page = {
+		categories: null,
 		data: null,
-		fetch: {len: 5, offset: 0},
+		fetch: null,
 		search: {
-			text: 'pizza'
+			term: null,
+			category: null
 		},
 		load_more: null
 	};
@@ -24,6 +26,7 @@ function fBoot()
 function fRun()
 {
     fBindBtns();
+	fGetDynamicFilters();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -38,6 +41,74 @@ function fBindBtns()
 }
 
 //-----------------------------------------------------------------------------------------
+function fGetDynamicFilters() 
+{
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {
+			cmd: 'get_dynamic_filters',
+		},
+		success: function(data)
+		{
+			data = JSON.parse(data);
+			if (data.errno == kDbSuccess)
+			{
+				page.categories = data.categories;
+				fInitDropdowns();
+			} else {
+				alert("Initializing filters has error with errno: " + data.errno);
+			}
+		}
+	});
+}
+
+//-----------------------------------------------------------------------------------------
+function fInitDropdowns() 
+{
+	fCreateDropdowns();
+	fBindDropdowns();
+}
+
+//-----------------------------------------------------------------------------------------
+function fCreateDropdowns()
+{
+	fCreateDropCategories(page.categories);
+}
+
+//-----------------------------------------------------------------------------------------
+function fBindDropdowns()
+{
+	var vId, vKey, vTarget, vCurrentTarget;
+
+    $('.drop_event').unbind('click');
+    $('.drop_event').click(function (e) {
+        vTarget = $(e.target);
+        vCurrentTarget = $(e.currentTarget);
+
+        vId = vCurrentTarget.attr('id');
+        vKey = vTarget.attr('key');
+        if (!vKey) return;
+
+        fDropPick({id: vId, key: vKey});
+
+        switch (vId)
+        {
+            case 'drop_category':
+                if (vKey == 0)
+                    vKey = '';
+                
+                if (vKey == page.search.category)
+                    return;
+
+                page.search.category = vKey;
+                fGetData2();
+                break;
+		}
+	});
+}
+
+//-----------------------------------------------------------------------------------------
 function fGetData2() {
 	fInitFetch();
 	fGetData();
@@ -46,14 +117,13 @@ function fGetData2() {
 //-----------------------------------------------------------------------------------------
 function fInitFetch()
 {
-	page = {
-		data: [],
-		fetch: {len: 20, offset: 0},
-		search: {
-			term: $('#search-term').val()
-		},
-		load_more: null
+	page.data = [];
+	page.fetch = {
+		len: 20, 
+		offset: 0
 	};
+	page.search.term = $('#search-term').val();
+	page.load_more = false;
 }
 
 //-----------------------------------------------------------------------------------------
