@@ -30,7 +30,7 @@ function fGetCoolestRestaurants()
 	$('#wait').show();
 	
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: 'index.php',
         data: {
             cmd: 'get_coolest_restaurants'
@@ -41,6 +41,7 @@ function fGetCoolestRestaurants()
             vData = JSON.parse(vData);
             if (vData.errno == kDbSuccess)
             {
+				fRenderTable(vData.data.restaurants);
 				fRenderChart(vData.data.restaurants);
             }
             else {
@@ -48,6 +49,35 @@ function fGetCoolestRestaurants()
 			}
         }
     });
+}
+
+//-----------------------------------------------------------------------------------------
+function fRenderTable(
+	vRestaurants
+)
+{
+	var vHtml, i, vRestaurant;
+
+	vHtml = "<table class='table table-bordered table-striped'>" +
+				"<tr>" +
+ 					"<th>Business</th>" +
+					"<th>Address</th>" +
+					"<th>Cool Votes</th>" +
+				"</tr>";
+	
+	for (i = 0; i < vRestaurants.length; i++) {
+		vRestaurant = vRestaurants[i];
+		
+		vHtml += "<tr>" +
+					"<td>" + vRestaurant['name'] + "</td>" +
+					"<td>" + vRestaurant['full_address'] + "</td>" +
+					"<td>" + vRestaurant['coolness'] + "</td>" +
+				 "</tr>";
+	}
+	
+	vHtml += "</table>";
+	
+	$('#coolest_restaurant_table').html(vHtml);
 }
 
 //-----------------------------------------------------------------------------------------
