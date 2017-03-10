@@ -237,3 +237,36 @@ function fCreateDropCategories(
         data: vToArr
     });
 }
+
+//-----------------------------------------------------------------------------------------
+function fCreateDropStates(
+	vList
+)
+{
+	var vToArr;
+    vToArr = [];
+    fGrabDistinctValues(vList, vToArr, 'state');
+	
+	fCreateGenericDrop({
+        id: 'drop_state',
+        default_text: 'All States',
+        data: vToArr
+    });
+}
+
+//-----------------------------------------------------------------------------------------
+function fCreateDropCities(
+	vList
+)
+{
+	var vToArr;
+    vToArr = [];
+    fGrabDistinctValues(vList, vToArr, 'city');
+	
+	fCreateGenericDrop({
+        id: 'drop_city',
+        default_text: 'All Cities',
+        data: vToArr
+    });
+}
+

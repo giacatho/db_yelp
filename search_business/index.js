@@ -12,11 +12,14 @@ function fBoot()
 {
 	page = {
 		categories: null,
+		cities: null,
 		data: null,
 		fetch: null,
 		search: {
 			term: null,
-			category: null
+			category: '',
+			state: '',
+			city: ''
 		},
 		load_more: null
 	};
@@ -55,6 +58,7 @@ function fGetDynamicFilters()
 			if (data.errno == kDbSuccess)
 			{
 				page.categories = data.categories;
+				page.cities = data.cities;
 				fInitDropdowns();
 			} else {
 				alert("Initializing filters has error with errno: " + data.errno);
@@ -74,6 +78,8 @@ function fInitDropdowns()
 function fCreateDropdowns()
 {
 	fCreateDropCategories(page.categories);
+	fCreateDropStates(page.cities);
+	fCreateDropCities(page.cities);
 }
 
 //-----------------------------------------------------------------------------------------
@@ -104,8 +110,43 @@ function fBindDropdowns()
                 page.search.category = vKey;
                 fGetData2();
                 break;
+			
+			case 'drop_state':
+				if (vKey == 0)
+                    vKey = '';
+                
+                if (vKey == page.search.state)
+                    return;
+
+                page.search.state = vKey;
+				page.search.city = '';
+				
+				fCreateDropCities(fGetCitiesByState(page.cities));
+				
+                fGetData2();
+				break;
+				
+			case 'drop_city':
+				if (vKey == 0)
+                    vKey = '';
+                
+                if (vKey == page.search.city)
+                    return;
+
+                page.search.city = vKey;
+                fGetData2();
 		}
 	});
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetCitiesByState(
+)
+{
+	if (page.search.state === '')
+		return page.cities;
+	
+	return fFindInArrayList(page.cities, "state", page.search.state);
 }
 
 //-----------------------------------------------------------------------------------------

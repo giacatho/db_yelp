@@ -32,7 +32,8 @@ function fGetDynamicFilters(
     
     return array(
         'errno' => $kDbSuccess,
-        'categories' => fDbGetTopCategories()
+        'categories' => fDbGetTopCategories(),
+		'cities' => fDbGetCities()
     );
 }
 
@@ -74,6 +75,14 @@ function fGetWhereString (
 			WHERE b.category = '" .  $vArgs['search']['category'] . "') ";
 	}
 	
+	if ($vArgs['search']['state'] != '') {
+		$vWhere .= "AND a.state ='" . $vArgs['search']['state'] ."' ";
+	}
+	
+	if ($vArgs['search']['city'] != '') {
+		$vWhere .= "AND a.city ='" . $vArgs['search']['city'] ."' ";
+	}
+	
 	return $vWhere;
 }
 
@@ -109,6 +118,22 @@ function fDbGetTopCategories()
 		GROUP BY category
 		HAVING business_count > 1000
 		ORDER BY business_count DESC");
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
+function fDbGetCities()
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT DISTINCT city, state
+		FROM tblBusiness
+		WHERE state <> '' AND city <> ''
+		ORDER BY state");
 	
 	$result = mysqli_query($vConn, $q);
 
