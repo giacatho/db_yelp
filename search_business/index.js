@@ -213,24 +213,22 @@ function fRefresh()
 	
 	$('#load_more').remove();
 	
-	if (page.data.length === 0) 
-	{
-		return;
-	}
-		
 	vBody = '';
-	for (i = 0; i < page.data.length; i++) 
+	if (page.data.length !== 0) 
 	{
-		o = page.data[i];
-		vBody += vHtmlSearchItem.replace(/<b_name>/, o.name)
-				.replace(/<b_category>/, "Categories")
-				.replace(/<b_address>/, o.full_address)
-				.replace(/<b_star>/, o.stars)
-				.replace(/<b_review_count>/, o.review_count);
+		for (i = 0; i < page.data.length; i++) 
+		{
+			o = page.data[i];
+			vBody += vHtmlSearchItem.replace(/<b_name>/, o.name)
+					.replace(/<b_category>/, o.categories)
+					.replace(/<b_address>/, o.full_address)
+					.replace(/<b_star>/, o.stars)
+					.replace(/<b_review_count>/, o.review_count);
+		}
+
+		if (page.load_more)
+			vBody += vHtmlLoadMore;
 	}
-	
-	if (page.load_more)
-		vBody += vHtmlLoadMore;
 	
 	$('#search-result-items').html(vBody);
 	

@@ -94,7 +94,7 @@ function fDbSearchBusiness(
 	global $vConn;
 	
 	$q = sprintf("
-		SELECT a.business_id, a.name, a.full_address, a.stars, a.review_count  
+		SELECT a.business_id, a.name, a.full_address, a.stars, a.review_count, a.categories 
 		FROM tblBusiness a
 		WHERE %s
 		ORDER BY a.stars DESC, a.name
