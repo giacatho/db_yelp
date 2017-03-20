@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Search Business</title>
+	<link rel="icon" type="image/ico" href="../lib/images/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="../lib/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../lib/css/custom.css?v=3">
+	
+	<script src="../lib/js/jquery.1.11.3.min.js"></script>
+	<script src="../lib/js/bootstrap.min.js"></script>
+	<script src="../lib/js/bootbox.min.js"></script>
+	<script src="../lib/js/highcharts-custom.js"></script>
+	<script src="../lib/js/const.js"></script>
+	
+	<script src="../common/js/dropdown.js"></script>
+	<script src="../common/js/util.js"></script>
+	
+	<script src="const.js?v=4"></script>
+	<script src="index.js?v=6"></script>
+</head>
+<body>
+<div id="main" class="container">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="home">Yelp!Me</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+						<li><a href="../top_business/">Top Business</a></li>
+						<li><a href="../search_business/">Search Business</a></li>
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Analytics <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+									<li><a href="user?action=list">Coolest Restaurants</a></li>
+									<li><a href="role?action=list">Best Reviews</a></li>
+							</ul>
+						</li>
+					<li><a href="about">About</a></li>
+					<li><a href="User Guide.htm" target="_blank">Help</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Hi, How are you?<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="profile">My Profile</a>
+							<li class="divider"></li>
+							<li><a href="logout">Logout</a>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="well well-sm page-head">
+		<h1>Top Business</h1>
+	</div>
+	
+	<div class="search-result well">
+		<h4>Top Reviews</h4>
+		<div id="search-result-items" class="list-group business-group">	
+			<div class="list-group-item">		
+				<div class="media">			
+					<div class="pull-left">				
+						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="...">			
+					</div>			
+					<div class="media-body">				
+						<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
+						<div class="media-content">					
+							<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
+							<ul class="list-unstyled">						
+								<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
+								<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
+								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
+							</ul>				
+						</div>			
+					</div>		
+				</div>	
+			</div>	
+			<div class="list-group-item">		
+				<div class="media">			
+					<div class="pull-left">				
+						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="...">			
+					</div>			
+					<div class="media-body">				
+						<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
+						<div class="media-content">					
+							<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
+							<ul class="list-unstyled">						
+								<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
+								<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
+								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
+							</ul>				
+						</div>			
+					</div>		
+				</div>	
+			</div>	
+			<div class="list-group-item">		
+				<div class="media">			
+					<div class="pull-left">				
+						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="...">			
+					</div>			
+					<div class="media-body">				
+						<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
+						<div class="media-content">					
+							<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
+							<ul class="list-unstyled">						
+								<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
+								<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
+								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
+							</ul>				
+						</div>			
+					</div>		
+				</div>	
+			</div>	
+		</div>
+	</div>
+	<div class="search-result well">
+		<h4>Top Mentioned</h4>
+		<div class="list-group business-group">	
+			<div class="list-group-item">		
+				<div class="media">			
+					<div class="pull-left">				
+						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="...">			
+					</div>			
+					<div class="media-body">				
+						<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
+						<div class="media-content">					
+							<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
+							<ul class="list-unstyled">						
+								<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
+								<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
+								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
+							</ul>				
+						</div>			
+					</div>		
+				</div>	
+			</div>	
+			<div class="list-group-item">		
+				<div class="media">			
+					<div class="pull-left">				
+						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="...">			
+					</div>			
+					<div class="media-body">				
+						<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
+						<div class="media-content">					
+							<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
+							<ul class="list-unstyled">						
+								<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
+								<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
+								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
+							</ul>				
+						</div>			
+					</div>		
+				</div>	
+			</div>	
+			<div class="list-group-item">		
+				<div class="media">			
+					<div class="pull-left">				
+						<img class="img-circle" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="...">			
+					</div>			
+					<div class="media-body">				
+						<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
+						<div class="media-content">					
+							<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
+							<ul class="list-unstyled">						
+								<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
+								<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
+								<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
+							</ul>				
+						</div>			
+					</div>		
+				</div>	
+			</div>	
+		</div>
+	</div>
+</div>
+<footer id="footer">
+	<div class="banner-footer">
+		<div class="container">
+			<div class="banner-footer-text pull-right">
+				Powered by Yelp. Developed by <a href="about">CI6205 group</a>.
+			</div>
+		</div>
+	</div>        
+	<div class="banner-copyright">
+		<div class="container">
+			<div class="copyright-text">© 2017 NTU CI6205. All Rights Reserved.</div>
+		</div>
+	</div>
+</footer>
+
+<div id="wait" style="display: none;"></div>
+</body>
+</html>
