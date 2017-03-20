@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<!-- http://bootsnipp.com/snippets/featured/ui-comments -->
+	<!-- http://bootsnipp.com/snippets/q8a3B -->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Search Business</title>
 	<link rel="icon" type="image/ico" href="../lib/images/favicon.ico"/>
 	<link rel="stylesheet" type="text/css" href="../lib/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../lib/css/custom.css?v=3">
+	<link rel="stylesheet" type="text/css" href="../lib/css/review.css">
 	
 	<script src="../lib/js/jquery.1.11.3.min.js"></script>
 	<script src="../lib/js/bootstrap.min.js"></script>
@@ -28,8 +31,8 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-						<li><a href="portfolio">My Portfolio</a></li>
-						<li><a href="trading?action=view">Trading</a></li>
+						<li><a href="../top_business/">Top Business</a></li>
+						<li><a href="../search_business/">Search Business</a></li>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">Analytics <span class="caret"></span></a>
 							<ul class="dropdown-menu">
@@ -37,7 +40,6 @@
 									<li><a href="role?action=list">Best Reviews</a></li>
 							</ul>
 						</li>
-					<li><a href="home">Home</a></li>
 					<li><a href="about">About</a></li>
 					<li><a href="User Guide.htm" target="_blank">Help</a></li>
 				</ul>
@@ -56,52 +58,47 @@
 	</nav>
 	
 	<div class="well well-sm page-head">
-		<h1>Search Business</h1>
+		<h1>View Business</h1>
 	</div>
 	
-	<div class="well">
-		<div class="row">
-			<div class="col-xs-4">
-				<div class="input-group">
-					<input id="search-term" type="text" class="form-control" placeholder="Search term...">
-					<span class="input-group-btn">
-						<button id="btn-search" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-					</span>
-				</div>
-			</div>
-			<div class="col-xs-8" style="text-align: right;">
-				<div id="drop_category" class="btn-group drop_event">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						<span class="selection"></span>
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" style="text-align:left">
-					</ul>
-				</div>
-				<div id="drop_state" class="btn-group drop_event">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						<span class="selection"></span>
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" style="text-align:left">
-					</ul>
-				</div>
-				<div id="drop_city" class="btn-group drop_event">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						<span class="selection"></span>
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" style="text-align:left">
-					</ul>
-				</div>
+	<div class="list-group-item">		
+		<div class="media">			
+			<div class="media-body">				
+				<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
+				<div class="media-content">					
+					<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
+					<ul class="list-unstyled">						
+						<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
+						<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
+						<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
+					</ul>				
+				</div>			
 			</div>		
-		</div>
-	</div>
-		
+		</div>	
+	</div>	
+	
 	<div class="search-result well">
-		<h4 id="search-result-head"></h4>
-		<div id="search-result-items" class="list-group business-group">
-		</div>
+		<h4 style="font-weight: bold;">Customer Reviews</h4>
+		<ul id="review-items" class="media-list">
+			
+			<li class="media">
+				<div class="media-body">
+					<div class="well well-lg">
+						<h4 class="media-heading text-uppercase reviews">Marco </h4>
+						<ul class="media-date text-uppercase reviews list-inline">
+							<li class="dd">22</li>
+							<li class="mm">09</li>
+							<li class="aaaa">2014</li>
+						</ul>
+						<p class="media-comment">
+							Great snippet! Thanks for sharing.
+						</p>
+						<a class="btn btn-info btn-circle text-uppercase"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
+						<a class="btn btn-success btn-circle text-uppercase"><span class="glyphicon glyphicon-comment"></span> 2 comments</a>
+					</div>              
+				</div>
+			</li>
+		</ul>
 	</div>
 </div>
 <footer id="footer">

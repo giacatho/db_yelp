@@ -9,12 +9,8 @@ mysqli_set_charset($vConn, "utf8");
 
 //------------------------------------------------------------------------------
 switch ($_POST['cmd']) {
-	case 'get_dynamic_filters':
-		echo json_encode(fGetDynamicFilters($_POST));
-		break;
-	
-	case 'get_data':
-		echo json_encode(fGetData($_POST));
+	case 'get_reviews':
+		echo json_encode(fGetReviews($_POST));
 		break;
 	
 	default:
@@ -23,32 +19,18 @@ switch ($_POST['cmd']) {
 		));
 }
 
-//-----------------------------------------------------------------------------------------
-function fGetDynamicFilters(
-    $vArgs
-)
-{
-    global $kDbSuccess;
-    
-    return array(
-        'errno' => $kDbSuccess,
-        'categories' => fDbGetTopCategories(),
-		'cities' => fDbGetCities()
-    );
-}
-
 //------------------------------------------------------------------------------
-function fGetData(
+function fGetReviews(
 	$vArgs
 ) {
 	global $kDbSuccess, $kDbError;
 	
-	$vBusinesses = fDbSearchBusiness($vArgs);
+	$vReviews = fDbSearchReviews($vArgs);
 	
     return array(
         'errno' => $kDbSuccess,
         'data' => array(
-            'businesses' => $vBusinesses
+            'reviews' => $vReviews
         )
     );
 
@@ -57,49 +39,22 @@ function fGetData(
 }
 
 //-----------------------------------------------------------------------------------------
-function fGetWhereString (
-	$vArgs
-)
-{
-	$vWhere = " 1 = 1 ";
-	
-	if ($vArgs['search']['term'] != '') {
-		$vWhere .= " AND a.name LIKE '%" .  $vArgs['search']['term'] . "%' ";
-	}
-	
-	if ($vArgs['search']['category'] != '') {
-		// Can use join in the main query, but that way needs the expensive DISTINCT
-		$vWhere .= " AND a.business_id IN (
-			SELECT b.business_id 
-			FROM tblBusinessCategory b
-			WHERE b.category = '" .  $vArgs['search']['category'] . "') ";
-	}
-	
-	if ($vArgs['search']['state'] != '') {
-		$vWhere .= "AND a.state ='" . $vArgs['search']['state'] ."' ";
-	}
-	
-	if ($vArgs['search']['city'] != '') {
-		$vWhere .= "AND a.city ='" . $vArgs['search']['city'] ."' ";
-	}
-	
-	return $vWhere;
-}
-
-//-----------------------------------------------------------------------------------------
-function fDbSearchBusiness(
+function fDbSearchReviews(
 	$vArgs
 )
 {
 	global $vConn;
 	
 	$q = sprintf("
-		SELECT a.business_id, a.name, a.full_address, a.stars, a.review_count  
-		FROM tblBusiness a
-		WHERE %s
-		ORDER BY a.stars DESC, a.name
+		SELECT b.name AS author, a.text, a.stars, a.date, 
+			a.`vote.cool` AS cool, a.`vote.funny` AS funny, a.`vote.useful` AS useful
+		FROM tblReview a
+			JOIN tblUser b
+				ON a.user_id = b.user_id
+		WHERE a.business_id = '%s'
+		ORDER BY a.date DESC
 		LIMIT %d, %d", 
-			fGetWhereString($vArgs),
+			$vArgs['business_id'],
 			$vArgs['fetch_offset'], $vArgs['fetch_len']);
 	
 	$result = mysqli_query($vConn, $q);

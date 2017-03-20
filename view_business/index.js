@@ -12,8 +12,12 @@ function fBoot()
 {
 	page = {
 		business_id : '-0HGqwlfw3I8nkJyMHxAsQ',
-		data: null,
-		load_more: null
+		data: [],
+		fetch : {
+			len: 10,
+			offset: 0
+		},
+		load_more: false
 	};
 }
 
@@ -21,147 +25,17 @@ function fBoot()
 function fRun()
 {
     fBindBtns();
-	fGetDynamicFilters();
+	fGetData();
 }
 
 //-----------------------------------------------------------------------------------------
 function fBindBtns()
 {
-	$('#btn-search').unbind();
-	$('#btn-search').click(function() {
-		fGetData2();
-	});
-	
-	fGetData2();
-}
-
-//-----------------------------------------------------------------------------------------
-function fGetDynamicFilters() 
-{
-	$.ajax({
-		type: 'POST',
-		url: 'index.php',
-		data: {
-			cmd: 'get_dynamic_filters',
-		},
-		success: function(data)
-		{
-			data = JSON.parse(data);
-			if (data.errno == kDbSuccess)
-			{
-				page.categories = data.categories;
-				page.cities = data.cities;
-				fInitDropdowns();
-			} else {
-				alert("Initializing filters has error with errno: " + data.errno);
-			}
-		}
-	});
-}
-
-//-----------------------------------------------------------------------------------------
-function fInitDropdowns() 
-{
-	fCreateDropdowns();
-	fBindDropdowns();
-}
-
-//-----------------------------------------------------------------------------------------
-function fCreateDropdowns()
-{
-	fCreateDropCategories(page.categories);
-	fCreateDropStates(page.cities);
-	fCreateDropCities(page.cities);
-}
-
-//-----------------------------------------------------------------------------------------
-function fBindDropdowns()
-{
-	var vId, vKey, vTarget, vCurrentTarget;
-
-    $('.drop_event').unbind('click');
-    $('.drop_event').click(function (e) {
-        vTarget = $(e.target);
-        vCurrentTarget = $(e.currentTarget);
-
-        vId = vCurrentTarget.attr('id');
-        vKey = vTarget.attr('key');
-        if (!vKey) return;
-
-        fDropPick({id: vId, key: vKey});
-
-        switch (vId)
-        {
-            case 'drop_category':
-                if (vKey == 0)
-                    vKey = '';
-                
-                if (vKey == page.search.category)
-                    return;
-
-                page.search.category = vKey;
-                fGetData2();
-                break;
-			
-			case 'drop_state':
-				if (vKey == 0)
-                    vKey = '';
-                
-                if (vKey == page.search.state)
-                    return;
-
-                page.search.state = vKey;
-				page.search.city = '';
-				
-				fCreateDropCities(fGetCitiesByState(page.cities));
-				
-                fGetData2();
-				break;
-				
-			case 'drop_city':
-				if (vKey == 0)
-                    vKey = '';
-                
-                if (vKey == page.search.city)
-                    return;
-
-                page.search.city = vKey;
-                fGetData2();
-		}
-	});
-}
-
-//-----------------------------------------------------------------------------------------
-function fGetCitiesByState(
-)
-{
-	if (page.search.state === '')
-		return page.cities;
-	
-	return fFindInArrayList(page.cities, "state", page.search.state);
-}
-
-//-----------------------------------------------------------------------------------------
-function fGetData2() {
-	fInitFetch();
-	fGetData();
-}
-
-//-----------------------------------------------------------------------------------------
-function fInitFetch()
-{
-	page.data = [];
-	page.fetch = {
-		len: 20, 
-		offset: 0
-	};
-	page.search.term = $('#search-term').val();
-	page.load_more = false;
 }
 
 //-----------------------------------------------------------------------------------------
 function fGetData() {
-	var businesses;
+	var reviews;
 	
 	$('#wait').show();
 	
@@ -169,10 +43,10 @@ function fGetData() {
 		type: 'POST',
 		url: 'index.php',
 		data: {
-			cmd: 'get_data',
+			cmd: 'get_reviews',
+			business_id: page.business_id,
 			fetch_len: page.fetch.len,
-			fetch_offset: page.fetch.len * page.fetch.offset,
-			search: page.search
+			fetch_offset: page.fetch.len * page.fetch.offset
 		},
 		success: function (data) {
 			$('#wait').hide();
@@ -181,14 +55,14 @@ function fGetData() {
 			
 			if (data.errno === kDbSuccess) 
 			{
-				businesses = data.data.businesses;
+				reviews = data.data.reviews;
 				
-				page.load_more = (businesses.length === page.fetch.len);
-				if (businesses.length > 0) {
+				page.load_more = (reviews.length === page.fetch.len);
+				if (reviews.length > 0) {
                     page.fetch.offset++;
                 }
 				
-				page.data = page.data.concat(businesses);
+				page.data = page.data.concat(reviews);
 				
 				fRefresh();
 			} else {
@@ -214,17 +88,22 @@ function fRefresh()
 	for (i = 0; i < page.data.length; i++) 
 	{
 		o = page.data[i];
-		vBody += vHtmlSearchItem.replace(/<b_name>/, o.name)
-				.replace(/<b_category>/, "Categories")
-				.replace(/<b_address>/, o.full_address)
-				.replace(/<b_star>/, o.stars)
-				.replace(/<b_review_count>/, o.review_count);
+		vBody += vHtmlReviewItem.replace(/<r_author>/, o.author)
+				.replace(/<r_text>/, o.text)
+				.replace(/<r_stars>/, o.stars)
+				.replace(/<r_date>/, o.date)
+				.replace(/<r_useful>/, o.useful)
+				.replace(/<r_useful_style>/, o.useful == 0 ? "display:none;" : "")
+				.replace(/<r_cool>/, o.cool)
+				.replace(/<r_cool_style>/, o.cool == 0 ? "display:none;" : "")
+				.replace(/<r_funny>/, o.funny)
+				.replace(/<r_funny_style>/, o.funny == 0 ? "display:none;" : "");
 	}
 	
 	if (page.load_more)
 		vBody += vHtmlLoadMore;
 	
-	$('#search-result-items').html(vBody);
+	$('#review-items').html(vBody);
 	
 	fOnPostRefresh();
 }
@@ -232,22 +111,7 @@ function fRefresh()
 //---------------------------------------------------------------------------------------
 function fOnPostRefresh() 
 {
-	fOtherUI();
 	fBindLoadMore();
-}
-
-//---------------------------------------------------------------------------------------
-function fOtherUI() 
-{
-	var html;
-	
-	if ($('#search-term').val().trim() !== '') {
-		html = "Search Result for '" + $('#search-term').val().trim() + "'";
-	} else {
-		html = "";
-	}
-	
-	$('#search-result-head').html(html);
 }
 
 //---------------------------------------------------------------------------------------
