@@ -9,6 +9,10 @@ mysqli_set_charset($vConn, "utf8");
 
 //------------------------------------------------------------------------------
 switch ($_POST['cmd']) {
+	case 'get_review_summary':
+		echo json_encode(fGetReviewSummary($_POST));
+		break;
+		
 	case 'get_reviews':
 		echo json_encode(fGetReviews($_POST));
 		break;
@@ -17,6 +21,25 @@ switch ($_POST['cmd']) {
 		echo json_encode(array (
 			'errno' => 'no_cmd'
 		));
+}
+
+//------------------------------------------------------------------------------
+function fGetReviewSummary(
+	$vArgs
+) {
+	global $kDbSuccess, $kDbError;
+	
+	$vReviewSummary = fDbGetReviewSummary($vArgs);
+	
+    return array(
+        'errno' => $kDbSuccess,
+        'data' => array(
+			'review_summary' => $vReviewSummary
+        )
+    );
+
+    err:
+    return array('errno' => $kDbError);
 }
 
 //------------------------------------------------------------------------------
@@ -39,6 +62,26 @@ function fGetReviews(
 }
 
 //-----------------------------------------------------------------------------------------
+function fDbGetReviewSummary(
+	$vArgs
+)
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT stars, COUNT(*) AS total
+		FROM tblReview
+		WHERE business_id = '%s'
+		GROUP BY stars
+		ORDER BY stars", 
+			$vArgs['business_id']);
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
 function fDbSearchReviews(
 	$vArgs
 )
@@ -56,39 +99,6 @@ function fDbSearchReviews(
 		LIMIT %d, %d", 
 			$vArgs['business_id'],
 			$vArgs['fetch_offset'], $vArgs['fetch_len']);
-	
-	$result = mysqli_query($vConn, $q);
-
-    return fDbGrabDb($result);
-}
-
-//-----------------------------------------------------------------------------------------
-function fDbGetTopCategories()
-{
-	global $vConn;
-	
-	$q = sprintf("
-		SELECT category, COUNT(business_id) business_count
-		FROM tblBusinessCategory
-		GROUP BY category
-		HAVING business_count > 1000
-		ORDER BY business_count DESC");
-	
-	$result = mysqli_query($vConn, $q);
-
-    return fDbGrabDb($result);
-}
-
-//-----------------------------------------------------------------------------------------
-function fDbGetCities()
-{
-	global $vConn;
-	
-	$q = sprintf("
-		SELECT DISTINCT city, state
-		FROM tblBusiness
-		WHERE state <> '' AND city <> ''
-		ORDER BY state");
 	
 	$result = mysqli_query($vConn, $q);
 

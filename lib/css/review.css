@@ -1,3 +1,7 @@
+#review-summary table th, #review-summary table td {
+	text-align: center;
+}
+
 .reviews {
     color: #555;    
     font-weight: bold;

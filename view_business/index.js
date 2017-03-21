@@ -12,7 +12,8 @@ function fBoot()
 {
 	page = {
 		business_id : '-0HGqwlfw3I8nkJyMHxAsQ',
-		data: [],
+		review_summary: null,
+		reviews: [],
 		fetch : {
 			len: 10,
 			offset: 0
@@ -25,12 +26,75 @@ function fBoot()
 function fRun()
 {
     fBindBtns();
+	fGetReviewSummary();
 	fGetData();
 }
 
 //-----------------------------------------------------------------------------------------
 function fBindBtns()
 {
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetReviewSummary() {
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {
+			cmd: 'get_review_summary',
+			business_id: page.business_id
+		},
+		success: function (data) {
+			data = JSON.parse(data);
+
+			if (data.errno === kDbSuccess) 
+			{
+				page.review_summary = data.data.review_summary;
+				
+				fRenderReviewSummary();
+			} else {
+				alert("Error with errno: " + data.errno);
+			}
+		}
+	});
+}
+
+//---------------------------------------------------------------------------------------
+function fRenderReviewSummary()
+{
+	var i, vHtml;
+	
+//	if (page.review_summary.length === 0)
+//		return;
+	
+	vHtml = '\
+		<table class="table table-condensed table-bordered">\
+			<tr class="text-center"><th>Review Stars</th><th>Total</th></tr>\
+	';
+	for (i = 0; i < 5; i++) {
+		vHtml += '<tr><td> ' + (i+1) + '</td><td>' + fGetReviewTotal(i+1) + '</td></tr>';
+	}
+	
+	vHtml += '\
+		</table>\
+	';
+	
+	$('#review-summary').html(vHtml);
+}
+
+//---------------------------------------------------------------------------------------
+function fGetReviewTotal(
+	vStarNumber
+)
+{
+	var i;
+	
+	for (i = 0; i < page.review_summary.length; i++) {
+		if (page.review_summary[i]['stars'] == vStarNumber)
+			return page.review_summary[i]['total'];
+	}
+	
+	return 0;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -62,7 +126,7 @@ function fGetData() {
                     page.fetch.offset++;
                 }
 				
-				page.data = page.data.concat(reviews);
+				page.reviews = page.reviews.concat(reviews);
 				
 				fRefresh();
 			} else {
@@ -79,15 +143,15 @@ function fRefresh()
 	
 	$('#load_more').remove();
 	
-	if (page.data.length === 0) 
+	if (page.reviews.length === 0) 
 	{
 		return;
 	}
 		
 	vBody = '';
-	for (i = 0; i < page.data.length; i++) 
+	for (i = 0; i < page.reviews.length; i++) 
 	{
-		o = page.data[i];
+		o = page.reviews[i];
 		vBody += vHtmlReviewItem.replace(/<r_author>/, o.author)
 				.replace(/<r_text>/, o.text)
 				.replace(/<r_stars>/, o.stars)
