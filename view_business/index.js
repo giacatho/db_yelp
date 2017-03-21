@@ -10,12 +10,12 @@ $(document).ready(function ()
 //-----------------------------------------------------------------------------------------
 function fBoot()
 {
+	g = fInitContext();
+	
+	if (!g || !g.business) 
+		alert("No business. You should go back.");
+	
 	page = {
-		business: {
-			business_id : '-0HGqwlfw3I8nkJyMHxAsQ',
-			latitude: 33.331156,
-			longitude: -111.981475
-		},
 		review_summary: null,
 		nearby_businesses: [],
 		reviews: [],
@@ -30,10 +30,24 @@ function fBoot()
 //-----------------------------------------------------------------------------------------
 function fRun()
 {
+	fRenderBusinessDetails();
     fBindBtns();
 	fGetReviewSummary();
 	// fGetNearbyBusinesses();
 	fGetData();
+}
+
+//-----------------------------------------------------------------------------------------
+function fRenderBusinessDetails()
+{
+	var vBody;
+	
+	vBody = vHtmlBusinessDetails
+		.replace(/<b_name>/, g.business.name)
+		.replace(/<b_category>/, g.business.categories)
+		.replace(/<b_address>/, g.business.full_address);
+		
+	$('#business_details').html(vBody);
 }
 
 //-----------------------------------------------------------------------------------------
@@ -48,7 +62,7 @@ function fGetReviewSummary() {
 		url: 'index.php',
 		data: {
 			cmd: 'get_review_summary',
-			business_id: page.business.business_id
+			business_id: g.business.business_id
 		},
 		success: function (data) {
 			data = JSON.parse(data);
@@ -122,7 +136,7 @@ function fGetNearbyBusinesses(
 		url: 'index.php',
 		data: {
 			cmd: 'get_nearby_businesses',
-			business_id: page.business.business_id
+			business_id: g.business.business_id
 		},
 		success: function (data) {
 			data = JSON.parse(data);
@@ -166,14 +180,20 @@ function fRenderNearbyBusinesses() {
 //-----------------------------------------------------------------------------------------
 function fRenderNearbyMap() {
 	var map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 15,
-		center: {lat: page.business.latitude, lng: page.business.longitude}
+		zoom: 16,
+		center: {
+			lat: parseFloat(g.business.latitude), 
+			lng: parseFloat(g.business.longitude)
+		}
 	});
 	
 	new google.maps.Marker({
-		position: {lat: page.business.latitude, lng: page.business.longitude},
+		position: {
+			lat: parseFloat(g.business.latitude), 
+			lng: parseFloat(g.business.longitude)
+		},
 		label: "Y!M",
-		title: page.business.name,
+		title: g.business.name,
 		map: map
 	})
 	
@@ -201,7 +221,7 @@ function fGetData() {
 		url: 'index.php',
 		data: {
 			cmd: 'get_reviews',
-			business_id: page.business.business_id,
+			business_id: g.business.business_id,
 			fetch_len: page.fetch.len,
 			fetch_offset: page.fetch.len * page.fetch.offset
 		},

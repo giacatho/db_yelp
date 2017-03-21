@@ -8,9 +8,18 @@ $(document).ready(function ()
 });
 
 //-----------------------------------------------------------------------------------------
+function fOnPageUnload()
+{
+	fUpdateContext(g, ['business'], [page.business_to_view]);
+}
+
+//-----------------------------------------------------------------------------------------
 function fBoot()
 {
+	fBindPageUnloadEvent();
+	
 	page = {
+		business_to_view: null,
 		categories: null,
 		cities: null,
 		data: null,
@@ -219,7 +228,9 @@ function fRefresh()
 		for (i = 0; i < page.data.length; i++) 
 		{
 			o = page.data[i];
-			vBody += vHtmlSearchItem.replace(/<b_name>/, o.name)
+			vBody += vHtmlSearchItem
+					.replace(/<b_business_id>/, o.business_id)
+					.replace(/<b_name>/, o.name)
 					.replace(/<b_category>/, o.categories)
 					.replace(/<b_address>/, o.full_address)
 					.replace(/<b_star>/, o.stars)
@@ -239,6 +250,7 @@ function fRefresh()
 function fOnPostRefresh() 
 {
 	fOtherUI();
+	fBindRowActions();
 	fBindLoadMore();
 }
 
@@ -254,6 +266,31 @@ function fOtherUI()
 	}
 	
 	$('#search-result-head').html(html);
+}
+
+//---------------------------------------------------------------------------------------
+function fBindRowActions()
+{
+	var vCmd, vKey, o;
+	
+	$('.row-events').unbind('click');
+	$('.row-events').click(function(e) {
+		vCmd = $(e.target).attr('cmd');
+		vKey = $(e.currentTarget).attr('key');
+		
+		o = fFindInArray(page.data, 'business_id', vKey);
+		
+		if (!o)
+			return;
+		
+		switch (vCmd)
+		{
+			case ('view'):
+				page.business_to_view = o;
+				fGoto('../view_business/');
+				break;
+		}
+	})
 }
 
 //---------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 	<!-- https://developers.google.com/maps/documentation/javascript/marker-clustering -->
 	<!-- https://developers.google.com/maps/documentation/javascript/mysql-to-maps -->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Search Business</title>
+	<title>View Business</title>
 	<link rel="icon" type="image/ico" href="../lib/images/favicon.ico"/>
 	<link rel="stylesheet" type="text/css" href="../lib/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../lib/css/custom.css?v=3">
@@ -64,21 +64,12 @@
 		<h1>View Business</h1>
 	</div>
 	
-	<div class="list-group-item">		
-		<div class="media">			
-			<div class="media-body">				
-				<h4 class="media-heading">$25 Chiropractic <small>Categories</small></h4>				
-				<div class="media-content">					
-					<i class="fa fa-map-marker"></i> 214 N Central Ave Phoenix, AZ 85004					
-					<ul class="list-unstyled">						
-						<li>Stars: <i class="fa fa-skype"></i> 5.0</li>						
-						<li>Review Count: <i class="fa fa-mobile"></i> 49</li>						
-						<li><i class="fa fa-envelope-o"></i> joedoe@email.com</li>					
-					</ul>				
-				</div>			
-			</div>		
-		</div>	
-	</div>	
+	<div id="business_details">
+		<div class="list-group-item">
+			<h3 class="media-heading">$25 Chiropractic <small>Categories</small></h3>				
+			<h4 class="media-content">214 N Central Ave Phoenix, AZ 85004</h4>
+		</div>
+	</div>
 	
 	<div class="search-result well">
 		<h4 style="font-weight: bold;">Customer Reviews</h4>
@@ -86,6 +77,14 @@
 		<div style='line-height:25px;'>&nbsp;</div>
 		<ul id="review-items" class="media-list">
 		</ul>
+	</div>
+	
+	<div class="search-result well">
+		<h4 style="font-weight: bold;">Reviews through Time</h4>
+	</div>
+	
+	<div class="search-result well">
+		<h4 style="font-weight: bold;">Tips through Time</h4>
 	</div>
 	
 	<div class="search-result well">
@@ -101,7 +100,7 @@
 	</div>
 	
 	<div class="search-result well">
-		<h4 style="font-weight: bold;">Recommend Business</h4>
+		<h4 style="font-weight: bold;">Related Businesses</h4>
 	</div>
 	
 </div>

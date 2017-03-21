@@ -220,6 +220,15 @@ function fMonthName(n)
 }
 
 //-----------------------------------------------------------------------------------------
+function fBindPageUnloadEvent()
+{
+    if (navigator.appName == 'Microsoft Internet Explorer')
+        window.attachEvent("onunload", fOnPageUnload);
+    else
+        window.addEventListener("beforeunload", fOnPageUnload, false);
+}
+
+//-----------------------------------------------------------------------------------------
 function fInitContext()
 {
     try

@@ -1,5 +1,12 @@
 var kLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
+var vHtmlBusinessDetails = '\
+	<div class="list-group-item">\
+		<h3 class="media-heading"><b_name> <small><b_category></small></h3>\
+		<h4 class="media-content"><b_address></h4>\
+	<div>\
+'
+
 var vHtmlNearbyBusinessItem = "\
 	<div class='list-group-item'>\
 		<div class='media'>\
@@ -17,16 +24,6 @@ var vHtmlNearbyBusinessItem = "\
 				</div>\
 			</div>\
 		</div>\
-	</div>\
-";
-
-var vHtmlReviewItem2 = "\
-	<div>\
-		<div><r_stars> out of 5</div>\
-		<div>By <r_author></div>\
-		<div>On <r_date></div>\
-		<div><r_text></div>\
-		<div><r_useful> useful | <r_cool> cool | <r_funny> funny\
 	</div>\
 ";
 
