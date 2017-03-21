@@ -51,7 +51,7 @@ function fGetReviewSummary() {
 			{
 				page.review_summary = data.data.review_summary;
 				
-				fRenderReviewSummary();
+				fRenderReviewSummaryChart();
 			} else {
 				alert("Error with errno: " + data.errno);
 			}
@@ -60,26 +60,36 @@ function fGetReviewSummary() {
 }
 
 //---------------------------------------------------------------------------------------
-function fRenderReviewSummary()
+function fRenderReviewSummaryChart()
 {
-	var i, vHtml;
-	
-//	if (page.review_summary.length === 0)
-//		return;
-	
-	vHtml = '\
-		<table class="table table-condensed table-bordered">\
-			<tr class="text-center"><th>Review Stars</th><th>Total</th></tr>\
-	';
-	for (i = 0; i < 5; i++) {
-		vHtml += '<tr><td> ' + (i+1) + '</td><td>' + fGetReviewTotal(i+1) + '</td></tr>';
-	}
-	
-	vHtml += '\
-		</table>\
-	';
-	
-	$('#review-summary').html(vHtml);
+	Highcharts.chart('review-summary-chart', {
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45
+            }
+        },
+        title: {
+            text: 'Review Summary'
+        },
+        plotOptions: {
+            pie: {
+                innerSize: 100,
+                depth: 45
+            }
+        },
+        series: [{
+            name: 'Total Review',
+            data: [
+                ['1 star', fGetReviewTotal(1)],
+                ['2 stars', fGetReviewTotal(2)],
+                ['3 stars', fGetReviewTotal(3)],
+                ['4 stars', fGetReviewTotal(4)],
+                ['5 stars', fGetReviewTotal(5)]
+            ]
+        }]
+    });
 }
 
 //---------------------------------------------------------------------------------------
@@ -91,7 +101,7 @@ function fGetReviewTotal(
 	
 	for (i = 0; i < page.review_summary.length; i++) {
 		if (page.review_summary[i]['stars'] == vStarNumber)
-			return page.review_summary[i]['total'];
+			return parseInt(page.review_summary[i]['total']);
 	}
 	
 	return 0;
