@@ -13,6 +13,7 @@ function fBoot()
 	page = {
 		business_id : '-0HGqwlfw3I8nkJyMHxAsQ',
 		review_summary: null,
+		nearby_businesses: [],
 		reviews: [],
 		fetch : {
 			len: 10,
@@ -27,6 +28,7 @@ function fRun()
 {
     fBindBtns();
 	fGetReviewSummary();
+	fGetNearbyBusinesses();
 	fGetData();
 }
 
@@ -105,6 +107,53 @@ function fGetReviewTotal(
 	}
 	
 	return 0;
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetNearbyBusinesses(
+)
+{
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {
+			cmd: 'get_nearby_businesses',
+			business_id: page.business_id
+		},
+		success: function (data) {
+			data = JSON.parse(data);
+
+			if (data.errno === kDbSuccess) 
+			{
+				page.nearby_businesses = data.data.nearby_businesses;
+				
+				fRenderNearbyBusinesses();
+			} else {
+				alert("Error with errno: " + data.errno);
+			}
+		}
+	});
+}
+
+//-----------------------------------------------------------------------------------------
+function fRenderNearbyBusinesses() {
+	var i, o, vBody;
+	
+	vBody = '';
+	if (page.nearby_businesses.length !== 0) 
+	{
+		for (i = 0; i < page.nearby_businesses.length; i++) 
+		{
+			o = page.nearby_businesses[i];
+			vBody += vHtmlNearbyBusinessItem.replace(/<b_name>/, o.name)
+					.replace(/<b_category>/, o.categories)
+					.replace(/<b_address>/, o.full_address)
+					.replace(/<b_star>/, o.stars)
+					.replace(/<b_review_count>/, o.review_count);
+		}
+	}
+	
+	$('#nearby-business-items').html(vBody);
 }
 
 //-----------------------------------------------------------------------------------------

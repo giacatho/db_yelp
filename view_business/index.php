@@ -17,6 +17,10 @@ switch ($_POST['cmd']) {
 		echo json_encode(fGetReviews($_POST));
 		break;
 	
+	case 'get_nearby_businesses':
+		echo json_encode(fGetNearbyBusinesses($_POST));
+		break;
+	
 	default:
 		echo json_encode(array (
 			'errno' => 'no_cmd'
@@ -62,6 +66,20 @@ function fGetReviews(
 }
 
 //-----------------------------------------------------------------------------------------
+function fGetNearbyBusinesses(
+	$vArgs
+) {
+	global $kDbSuccess;
+	
+	return array(
+        'errno' => $kDbSuccess,
+        'data' => array(
+            'nearby_businesses' => fDbGetNearbyBusinesses($vArgs)
+        )
+    );
+}
+
+//-----------------------------------------------------------------------------------------
 function fDbGetReviewSummary(
 	$vArgs
 )
@@ -99,6 +117,28 @@ function fDbSearchReviews(
 		LIMIT %d, %d", 
 			$vArgs['business_id'],
 			$vArgs['fetch_offset'], $vArgs['fetch_len']);
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
+function fDbGetNearbyBusinesses(
+	$vArgs
+)
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT dest.business_id, dest.name, dest.full_address, dest.stars, dest.review_count, 
+			dest.categories, dest.latitude, dest.longitude, 
+			3956 * 2 * ASIN(SQRT(POWER(SIN((orig.latitude - dest.latitude) * pi()/180 / 2), 2) +  COS(orig.latitude * pi()/180) *  COS(dest.latitude * pi()/180) *  POWER(SIN((orig.longitude - dest.longitude) * pi()/180 / 2), 2)  )) AS distance 
+			FROM tblBusiness orig, tblBusiness dest
+		WHERE orig.business_id = '%s' AND orig.business_id <> dest.business_id
+			AND orig.state = dest.state AND orig.city = dest.city 
+		ORDER BY distance
+		LIMIT 10", $vArgs['business_id']);
 	
 	$result = mysqli_query($vConn, $q);
 
