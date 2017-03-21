@@ -1,8 +1,13 @@
+var kLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 var vHtmlNearbyBusinessItem = "\
 	<div class='list-group-item'>\
 		<div class='media'>\
+			<div class='pull-left'>\
+				<span class='btn btn-primary'><b_label></span>\
+			</div>\
 			<div class='media-body'>\
-				<h4 class='media-heading'><b_name> <small><b_category></small></h4>\
+				<h4 class='media-heading'></span><b_name> <small><b_category></small></h4>\
 				<div class='media-content'>\
 					<i class='fa fa-map-marker'></i> <b_address>\
 					<ul class='list-unstyled'>\

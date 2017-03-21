@@ -11,7 +11,11 @@ $(document).ready(function ()
 function fBoot()
 {
 	page = {
-		business_id : '-0HGqwlfw3I8nkJyMHxAsQ',
+		business: {
+			business_id : '-0HGqwlfw3I8nkJyMHxAsQ',
+			latitude: 33.331156,
+			longitude: -111.981475
+		},
 		review_summary: null,
 		nearby_businesses: [],
 		reviews: [],
@@ -28,7 +32,7 @@ function fRun()
 {
     fBindBtns();
 	fGetReviewSummary();
-	fGetNearbyBusinesses();
+	// fGetNearbyBusinesses();
 	fGetData();
 }
 
@@ -44,7 +48,7 @@ function fGetReviewSummary() {
 		url: 'index.php',
 		data: {
 			cmd: 'get_review_summary',
-			business_id: page.business_id
+			business_id: page.business.business_id
 		},
 		success: function (data) {
 			data = JSON.parse(data);
@@ -118,7 +122,7 @@ function fGetNearbyBusinesses(
 		url: 'index.php',
 		data: {
 			cmd: 'get_nearby_businesses',
-			business_id: page.business_id
+			business_id: page.business.business_id
 		},
 		success: function (data) {
 			data = JSON.parse(data);
@@ -128,6 +132,7 @@ function fGetNearbyBusinesses(
 				page.nearby_businesses = data.data.nearby_businesses;
 				
 				fRenderNearbyBusinesses();
+				fRenderNearbyMap();
 			} else {
 				alert("Error with errno: " + data.errno);
 			}
@@ -145,7 +150,9 @@ function fRenderNearbyBusinesses() {
 		for (i = 0; i < page.nearby_businesses.length; i++) 
 		{
 			o = page.nearby_businesses[i];
-			vBody += vHtmlNearbyBusinessItem.replace(/<b_name>/, o.name)
+			vBody += vHtmlNearbyBusinessItem
+					.replace(/<b_label>/, kLabels[i % kLabels.length])
+					.replace(/<b_name>/, o.name)
 					.replace(/<b_category>/, o.categories)
 					.replace(/<b_address>/, o.full_address)
 					.replace(/<b_star>/, o.stars)
@@ -154,6 +161,33 @@ function fRenderNearbyBusinesses() {
 	}
 	
 	$('#nearby-business-items').html(vBody);
+}
+
+//-----------------------------------------------------------------------------------------
+function fRenderNearbyMap() {
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 15,
+		center: {lat: page.business.latitude, lng: page.business.longitude}
+	});
+	
+	new google.maps.Marker({
+		position: {lat: page.business.latitude, lng: page.business.longitude},
+		label: "Y!M",
+		title: page.business.name,
+		map: map
+	})
+	
+	var markers = page.nearby_businesses.map(function(nearby_business, i) {
+		return new google.maps.Marker({
+			position: {
+				lat: parseFloat(nearby_business.latitude), 
+				lng: parseFloat(nearby_business.longitude)
+			},
+			label: kLabels[i % kLabels.length],
+			title: nearby_business.name,
+			map: map
+		});
+	});
 }
 
 //-----------------------------------------------------------------------------------------
@@ -167,7 +201,7 @@ function fGetData() {
 		url: 'index.php',
 		data: {
 			cmd: 'get_reviews',
-			business_id: page.business_id,
+			business_id: page.business.business_id,
 			fetch_len: page.fetch.len,
 			fetch_offset: page.fetch.len * page.fetch.offset
 		},

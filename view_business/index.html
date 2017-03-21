@@ -91,10 +91,12 @@
 	<div class="search-result well">
 		<h4 style="font-weight: bold;">Nearby Businesses</h4>
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-6">
 				<div id="nearby-business-items" class="list-group business-group"></div>
 			</div>
-			<div class="col-md-5"></div>
+			<div class="col-md-6">
+				<div id="map" style="height:400px;"></div>
+			</div>
 		</div>
 	</div>
 	
@@ -119,5 +121,7 @@
 </footer>
 
 <div id="wait" style="display: none;"></div>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgm9a84E6P9R9w08GBS6zkhZlt9qCTHNM&callback=fGetNearbyBusinesses"></script>
 </body>
 </html>
