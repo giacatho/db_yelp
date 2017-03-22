@@ -9,3 +9,4 @@ $kDbDatabase = 'yelp';
 $kDbSuccess = 540;
 $kDbError = 541;
 $kDbDuplicate = 542;
+$kDbNotFound = 543;
