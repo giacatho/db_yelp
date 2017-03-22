@@ -10,16 +10,16 @@ $(document).ready(function ()
 //-----------------------------------------------------------------------------------------
 function fOnPageUnload()
 {
-	fUpdateContext(g, ['session_id'], [page.session_id]);
+	// fUpdateContext(g, ['user'], [page.user]);
 }
 
 //-----------------------------------------------------------------------------------------
 function fBoot(){
-	fBindPageUnloadEvent();
+	// fBindPageUnloadEvent();
 	
-	page = {
-		session_id : null
-	};
+//	page = {
+//		user: null
+//	};
 }
 
 //-----------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ function fLogin()
 			data = JSON.parse(data);
 			if (data.errno == kDbSuccess)
 			{
-				page.session_id = data.data.session_id;
+				fUpdateContext("user", {session_id: data.data.session_id});
 				
 				bootbox.alert("Login is successful!", function(ok) {
 					window.location = '../my_togo/';

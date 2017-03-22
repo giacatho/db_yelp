@@ -244,32 +244,21 @@ function fInitContext()
 
 //-----------------------------------------------------------------------------------------
 function fUpdateContext(
-    vContext,
-    vKeyArr,
-    vObjArr
+    vKey,
+    vObj
 )
 {
-    var i, o, vKey, vObj;
+    var o;
 
-    o = vContext || {};
-
-    if (vKeyArr.length != vObjArr.length)
-        return false;
-
-    for (i = 0; i < vKeyArr.length; i++)
-    {
-        vKey = vKeyArr[i];
-        if (!vObjArr[i])
-        {
-            delete o[vKey];
-            continue;
-        }
-
-        vObj = vObjArr[i];
-        o[vKey] = fCloneObject(vObj);
-    }
+	if (!(document.domain in localStorage))
+		o = {}
+	else
+		o = JSON.parse(localStorage[document.domain]);
+	
+	o[vKey] = fCloneObject(vObj);
 
     localStorage[document.domain] = JSON.stringify(o);
+	
     return true;
 }
 

@@ -11,7 +11,8 @@ $(document).ready(function ()
 function fBoot()
 {
 	g = fInitContext();
-    if (!g || !g.session_id)
+	
+	if (!g || !g.user)
         window.location = '../login/';
 	
 	page = {

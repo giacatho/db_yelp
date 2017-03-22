@@ -13,7 +13,7 @@ function fBoot()
 	g = fInitContext();
 	
 	if (!g || !g.business) 
-		alert("No business. You should go back.");
+		window.location = "../search_business/";
 	
 	page = {
 		review_summary: null,

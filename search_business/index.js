@@ -10,13 +10,13 @@ $(document).ready(function ()
 //-----------------------------------------------------------------------------------------
 function fOnPageUnload()
 {
-	fUpdateContext(g, ['business'], [page.business_to_view]);
+	// fUpdateContext(g, ['business'], [page.business_to_view]);
 }
 
 //-----------------------------------------------------------------------------------------
 function fBoot()
 {
-	fBindPageUnloadEvent();
+	// fBindPageUnloadEvent();
 	
 	page = {
 		business_to_view: null,
@@ -286,7 +286,7 @@ function fBindRowActions()
 		switch (vCmd)
 		{
 			case ('view'):
-				page.business_to_view = o;
+				fUpdateContext('business', o);
 				fGoto('../view_business/');
 				break;
 		}
