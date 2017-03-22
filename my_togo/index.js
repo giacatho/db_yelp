@@ -11,6 +11,7 @@ $(document).ready(function ()
 function fBoot()
 {
 	g = fInitContext();
+	fInitMenu(!g || !g.user);
 	
 	if (!g || !g.user)
         window.location = '../login/';

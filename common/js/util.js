@@ -1,3 +1,12 @@
+function fInitMenu(vIsGuest)
+{
+	if (vIsGuest)
+		$('#navbar').html(kHtmlGuestMenu);
+	else
+		$('#navbar').html(kHtmlSignedInMenu);
+}
+
+
 //-----------------------------------------------------------------------------------------
 // Place generic helper functions here. Helper functions that can be used for any
 // web applications.

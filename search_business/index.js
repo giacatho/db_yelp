@@ -8,15 +8,10 @@ $(document).ready(function ()
 });
 
 //-----------------------------------------------------------------------------------------
-function fOnPageUnload()
-{
-	// fUpdateContext(g, ['business'], [page.business_to_view]);
-}
-
-//-----------------------------------------------------------------------------------------
 function fBoot()
 {
-	// fBindPageUnloadEvent();
+	g = fInitContext();
+	fInitMenu(!g || !g.user);
 	
 	page = {
 		business_to_view: null,

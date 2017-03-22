@@ -11,6 +11,7 @@ $(document).ready(function ()
 function fBoot()
 {
 	g = fInitContext();
+	fInitMenu(!g || !g.user);
 	
 	if (!g || !g.business) 
 		window.location = "../search_business/";
