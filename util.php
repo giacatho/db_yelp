@@ -12,6 +12,27 @@ function fDbGrabDb($result)
 }
 
 //-----------------------------------------------------------------------------------------
+function fDbGetUserByEmail(
+	$vEmail
+)
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT * 
+		FROM tblYMUser
+		WHERE email = '%s'", $vEmail);
+	
+	$res = mysqli_query($vConn, $q);
+	
+	if (count($res) == 0)
+		return null;
+	
+	return mysqli_fetch_assoc($res);
+}
+
+
+//-----------------------------------------------------------------------------------------
 function fDbGetAllBusinessWithCategory(
 )
 {
