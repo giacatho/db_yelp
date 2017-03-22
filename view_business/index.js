@@ -31,8 +31,8 @@ function fBoot()
 //-----------------------------------------------------------------------------------------
 function fRun()
 {
-	fRenderBusinessDetails();
     fBindBtns();
+	fRenderBusinessDetails();
 	fGetReviewSummary();
 	// fGetNearbyBusinesses(); // This is called from Google Map callback
 	fGetRecommendedBusinesses();
@@ -42,19 +42,46 @@ function fRun()
 //-----------------------------------------------------------------------------------------
 function fRenderBusinessDetails()
 {
-	var vBody;
-	
-	vBody = vHtmlBusinessDetails
-		.replace(/<b_name>/, g.business.name)
-		.replace(/<b_category>/, g.business.categories)
-		.replace(/<b_address>/, g.business.full_address);
-		
-	$('#business_details').html(vBody);
+	$('#business_name').html(g.business.name);
+	$('#business_address').html(g.business.full_address);
 }
 
 //-----------------------------------------------------------------------------------------
 function fBindBtns()
 {
+	$('#btn-add').unbind('click');
+	$('#btn-add').click(function() {
+		if (!g.user) {
+			window.location = '../login/';
+		} else {
+			fAddToGo();
+		} 
+	});
+}
+
+//-----------------------------------------------------------------------------------------
+function fAddToGo()
+{
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {
+			cmd: 'add_togo',
+			session_id: g.user.session_id,
+			business_id: g.business.business_id
+		},
+		success: function (data) {
+			data = JSON.parse(data);
+
+			if (data.errno === kDbSuccess) 
+			{
+				$('#btn-add').hide();
+				bootbox.alert("Adding to ToGo list is successfully.");
+			} else {
+				alert("Error with errno: " + data.errno);
+			}
+		}
+	});
 }
 
 //-----------------------------------------------------------------------------------------

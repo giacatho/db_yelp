@@ -25,6 +25,10 @@ switch ($_POST['cmd']) {
 		echo json_encode(fGetRecommendedBusinesses($_POST));
 		break;
 	
+	case 'add_togo':
+		echo json_encode(fAddTogo($_POST));
+		break;
+	
 	default:
 		echo json_encode(array (
 			'errno' => 'no_cmd'
@@ -220,4 +224,44 @@ function fDbGetAlsoTippedBusinesses(
 	$result = mysqli_query($vConn, $q);
 
     return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
+function fAddToGo(
+	$vArgs
+) 
+{
+	global $kDbSuccess, $kDbError;
+	
+	if (fDbAddToGo($vArgs)) {
+		return array(
+			'errno' => $kDbSuccess,
+		);
+	}
+	
+	return array(
+		'errno' => $kDbError
+	);
+}
+
+//-----------------------------------------------------------------------------------------
+function fDbAddToGo(
+	$vArgs
+) 
+{
+	global $vConn;
+	
+	$time = time();
+	
+	$q = sprintf("
+		INSERT INTO tblYMToGo
+		SET
+			ym_user_id = '%s',
+			business_id = '%s',
+			timestamp = %d
+		ON DUPLICATE KEY 
+		UPDATE
+			timestamp = %d", $vArgs['ym_user_id'], $vArgs['bussiness_id'], $time, $time);
+	
+	return mysqli_query($vConn, $q);	
 }
