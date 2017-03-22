@@ -27,6 +27,22 @@ var vHtmlNearbyBusinessItem = "\
 	</div>\
 ";
 
+var vHtmlBusinessItem = "\
+	<div class='list-group-item'>\
+		<div class='media'>\
+			<div class='media-body'>\
+				<h4 class='media-heading'></span><b_name> <small><b_category></small></h4>\
+				<div class='media-content'>\
+					<i class='fa fa-map-marker'></i> <b_address>\
+					<ul class='list-unstyled'>\
+						<li>Stars: <i class='fa fa-skype'></i> <b_star></li>\
+					</ul>\
+				</div>\
+			</div>\
+		</div>\
+	</div>\
+";
+
 var vHtmlReviewItem = '\
 	<li class="media">\
 		<div class="media-body">\

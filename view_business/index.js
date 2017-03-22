@@ -33,7 +33,8 @@ function fRun()
 	fRenderBusinessDetails();
     fBindBtns();
 	fGetReviewSummary();
-	// fGetNearbyBusinesses();
+	// fGetNearbyBusinesses(); // This is called from Google Map callback
+	fGetRecommendedBusinesses();
 	fGetData();
 }
 
@@ -208,6 +209,53 @@ function fRenderNearbyMap() {
 			map: map
 		});
 	});
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetRecommendedBusinesses() 
+{
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {
+			cmd: 'get_recommended_businesses',
+			business_id: g.business.business_id
+		},
+		success: function (data) {
+			data = JSON.parse(data);
+
+			if (data.errno === kDbSuccess) 
+			{
+				page.also_reviewed_businesses = data.data.also_reviewed_businesses;
+				
+				fRenderAlsoReviewedBusinesses();
+			} else {
+				alert("Error with errno: " + data.errno);
+			}
+		}
+	});
+}
+
+//-----------------------------------------------------------------------------------------
+function fRenderAlsoReviewedBusinesses()
+{
+	var i, o, vBody;
+	
+	vBody = '';
+	if (page.also_reviewed_businesses.length !== 0) 
+	{
+		for (i = 0; i < page.also_reviewed_businesses.length; i++) 
+		{
+			o = page.also_reviewed_businesses[i];
+			vBody += vHtmlBusinessItem
+					.replace(/<b_name>/, o.name)
+					.replace(/<b_category>/, o.categories)
+					.replace(/<b_address>/, o.full_address)
+					.replace(/<b_star>/, o.stars);
+		}
+	}
+	
+	$('#also-reviewed-items').html(vBody);
 }
 
 //-----------------------------------------------------------------------------------------
