@@ -158,7 +158,8 @@ function fGetRecommendedBusinesses(
 	return array(
         'errno' => $kDbSuccess,
         'data' => array(
-            'also_reviewed_businesses' => fDbGetAlsoReviewedBusinesses($vArgs)
+            'also_reviewed_businesses' => fDbGetAlsoReviewedBusinesses($vArgs),
+			'also_tipped_businesses' => fDbGetAlsoTippedBusinesses($vArgs)
         )
     );
 }
@@ -170,26 +171,10 @@ function fDbGetAlsoReviewedBusinesses(
 {
 	global $vConn;
 	
-	// 1. Get all users review this busines.
+	// 1. Get all users who review this busines.
 	// 2. Get all reviews make by the users.
 	// 3. Get business_id, count(review) from those reviews.
 	// 4. Get the top 10 business
-	
-//	$q = sprintf("
-//		SELECT b.business_id, b.name, b.full_address, b.stars, b.review_count, b.categories, 
-//			b.latitude, b.longitude, COUNT(*) AS review_count
-//		FROM tblReview a
-//			JOIN tblBusiness b
-//				ON a.business_id = b.business_id
-//		WHERE a.user_id IN (
-//			SELECT user_id
-//			FROM tblReview
-//			WHERE business_id = '%s'
-//		)
-//		ORDER BY review_count
-//		LIMIT 10
-//		", $vArgs['business_id']);
-	
 	$q = sprintf("
 		SELECT b.business_id, c.name, c.full_address, c.stars, c.review_count, c.categories, 
 			c.latitude, c.longitude, COUNT(*) AS common_review_count
@@ -202,6 +187,33 @@ function fDbGetAlsoReviewedBusinesses(
 			AND b.business_id <> a.business_id
 		GROUP BY b.business_id
 		ORDER BY common_review_count DESC
+		LIMIT 10
+		", $vArgs['business_id']);
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
+function fDbGetAlsoTippedBusinesses(
+	$vArgs
+)
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT b.business_id, c.name, c.full_address, c.stars, c.review_count, c.categories, 
+			c.latitude, c.longitude, COUNT(*) AS common_tip_count
+		FROM tblTip a
+			JOIN tblTip b
+				ON a.user_id = b.user_id
+			JOIN tblBusiness c
+				ON b.business_id = c.business_id
+		WHERE a.business_id = '%s'
+			AND b.business_id <> a.business_id
+		GROUP BY b.business_id
+		ORDER BY common_tip_count DESC
 		LIMIT 10
 		", $vArgs['business_id']);
 	

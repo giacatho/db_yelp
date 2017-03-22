@@ -227,8 +227,10 @@ function fGetRecommendedBusinesses()
 			if (data.errno === kDbSuccess) 
 			{
 				page.also_reviewed_businesses = data.data.also_reviewed_businesses;
+				page.also_tipped_businesses = data.data.also_tipped_businesses;
 				
 				fRenderAlsoReviewedBusinesses();
+				fRenderAlsoTippedBusinesses();
 			} else {
 				alert("Error with errno: " + data.errno);
 			}
@@ -256,6 +258,30 @@ function fRenderAlsoReviewedBusinesses()
 	}
 	
 	$('#also-reviewed-items').html(vBody);
+}
+
+//-----------------------------------------------------------------------------------------
+function fRenderAlsoTippedBusinesses()
+{
+	var i, o, vBody;
+	
+	vBody = '';
+	if (page.also_tipped_businesses.length !== 0) 
+	{
+		for (i = 0; i < page.also_tipped_businesses.length; i++) 
+		{
+			o = page.also_tipped_businesses[i];
+			vBody += vHtmlBusinessItem
+					.replace(/<b_name>/, o.name)
+					.replace(/<b_category>/, o.categories)
+					.replace(/<b_address>/, o.full_address)
+					.replace(/<b_star>/, o.stars);
+		}
+	} else {
+		vBody += '<div>No Data</div>';
+	}
+	
+	$('#also-tipped-items').html(vBody);
 }
 
 //-----------------------------------------------------------------------------------------
