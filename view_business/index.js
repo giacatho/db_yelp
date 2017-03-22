@@ -83,6 +83,14 @@ function fGetReviewSummary() {
 //---------------------------------------------------------------------------------------
 function fRenderReviewSummaryChart()
 {
+	var oneCount, twoCount, threeCount, fourCount, fiveCount;
+	
+	oneCount = fGetReviewTotal(1);
+	twoCount = fGetReviewTotal(2);
+	threeCount = fGetReviewTotal(3);
+	fourCount = fGetReviewTotal(4);
+	fiveCount = fGetReviewTotal(5);
+	
 	Highcharts.chart('review-summary-chart', {
         chart: {
             type: 'pie',
@@ -94,6 +102,9 @@ function fRenderReviewSummaryChart()
         title: {
             text: 'Review Summary'
         },
+		subtitle: {
+            text: (oneCount + twoCount + threeCount + fourCount + fiveCount) + ' Reviews'
+        },
         plotOptions: {
             pie: {
                 innerSize: 100,
@@ -103,11 +114,11 @@ function fRenderReviewSummaryChart()
         series: [{
             name: 'Total Review',
             data: [
-                ['1 star', fGetReviewTotal(1)],
-                ['2 stars', fGetReviewTotal(2)],
-                ['3 stars', fGetReviewTotal(3)],
-                ['4 stars', fGetReviewTotal(4)],
-                ['5 stars', fGetReviewTotal(5)]
+                ['1 star', oneCount],
+                ['2 stars', twoCount],
+                ['3 stars', threeCount],
+                ['4 stars', fourCount],
+                ['5 stars', fiveCount]
             ]
         }]
     });
