@@ -1,7 +1,7 @@
 var vHtmlSearchItem = "\
 	<div class='list-group-item'>\
 		<div class='media'>\
-			<div class='pull-left'>\
+			<div class='pull-right'>\
 				<img class='img-circle' src='http://bootdey.com/img/Content/avatar/avatar1.png' alt='...'>\
 			</div>\
 			<div class='media-body'>\
@@ -11,7 +11,6 @@ var vHtmlSearchItem = "\
 					<ul class='list-unstyled'>\
 						<li>Stars: <i class='fa fa-skype'></i> <b_star></li>\
 						<li>Review Count: <i class='fa fa-mobile'></i> <b_review_count></li>\
-						<li><i class='fa fa-envelope-o'></i> joedoe@email.com</li>\
 					</ul>\
 				</div>\
 			</div>\

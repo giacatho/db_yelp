@@ -26,6 +26,7 @@ switch ($_POST['cmd']) {
 		break;
 	
 	case 'add_togo':
+		fSessionWall($_POST);
 		echo json_encode(fAddTogo($_POST));
 		break;
 	
@@ -256,12 +257,12 @@ function fDbAddToGo(
 	$q = sprintf("
 		INSERT INTO tblYMToGo
 		SET
-			ym_user_id = '%s',
+			ym_user_id = %d,
 			business_id = '%s',
 			timestamp = %d
 		ON DUPLICATE KEY 
 		UPDATE
-			timestamp = %d", $vArgs['ym_user_id'], $vArgs['bussiness_id'], $time, $time);
+			timestamp = %d", $vArgs['ym_user_id'], $vArgs['business_id'], $time, $time);
 	
 	return mysqli_query($vConn, $q);	
 }
