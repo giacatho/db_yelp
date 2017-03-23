@@ -280,12 +280,12 @@ function fBindRowActions()
 		
 		switch (vCmd)
 		{
-			case ('view'):
+			case 'view':
 				fUpdateContext('business', o);
 				fGoto('../view_business/');
 				break;
 		}
-	})
+	});
 }
 
 //---------------------------------------------------------------------------------------

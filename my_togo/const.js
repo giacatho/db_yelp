@@ -1,11 +1,11 @@
 var vHtmlSearchItem = "\
-	<div class='list-group-item'>\
+	<div key='<b_business_id>' class='list-group-item row-events'>\
 		<div class='media'>\
 			<div class='pull-right'>\
-				<img class='img-circle' src='http://bootdey.com/img/Content/avatar/avatar1.png' alt='...'>\
+				<button cmd='remove' class='btn btn-info'>Remove</button>\
 			</div>\
 			<div class='media-body'>\
-				<h4 class='media-heading'><b_name> <small><b_category></small></h4>\
+				<h4 class='media-heading'><span cmd='view' style='color: #dd4814;cursor:pointer;'><b_name></span> <small><b_category></small></h4>\
 				<div class='media-content'>\
 					<i class='fa fa-map-marker'></i> <b_address>\
 					<ul class='list-unstyled'>\

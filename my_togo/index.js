@@ -38,7 +38,7 @@ function fBindBtns()
 {
 }
 
-//---
+//-----------------------------------------------------------------------------------------
 function fGetData()
 {
 	var businesses;
@@ -133,10 +133,48 @@ function fBindRowActions()
 		
 		switch (vCmd)
 		{
-			case ('view'):
+			case 'view':
 				fUpdateContext('business', o);
 				fGoto('../view_business/');
 				break;
+				
+			case 'remove':
+				fRemoveToGo(vKey);
+				break;
+		}
+	});
+}
+
+//-----------------------------------------------------------------------------------------
+function fRemoveToGo(
+	vBusinessId
+)
+{
+	var vIndex;
+	
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {
+			cmd: 'remove_togo',
+			session_id: g.user.session_id,
+			business_id: vBusinessId
+		},
+		success: function (data) {
+			data = JSON.parse(data);
+
+			if (data.errno === kDbSuccess) 
+			{
+				// Refresh the data
+				vIndex = fGetPosInArray(page.data, 'business_id', vBusinessId);
+				if (vIndex > -1 )
+					page.data.splice(vIndex, 1);
+				
+				fRefresh();
+				// bootbox.alert("Adding to ToGo list is successfully.");
+			} else {
+				alert("Error with errno: " + data.errno);
+			}
 		}
 	});
 }

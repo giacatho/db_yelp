@@ -14,6 +14,11 @@ switch ($_POST['cmd']) {
 		echo json_encode(fGetData($_POST));
 		break;
 	
+	case 'remove_togo':
+		fSessionWall($_POST);
+		echo json_encode(fRemoveToGo($_POST));
+		break;
+	
 	default:
 		echo json_encode(array (
 			'errno' => 'no_cmd'
@@ -60,4 +65,38 @@ function fDbGetToGoBusiness(
 	$result = mysqli_query($vConn, $q);
 
     return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
+function fRemoveToGo(
+	$vArgs
+) 
+{
+	global $kDbSuccess, $kDbError;
+	
+	if (fDbRemoveToGo($vArgs)) {
+		return array(
+			'errno' => $kDbSuccess,
+		);
+	}
+	
+	return array(
+		'errno' => $kDbError
+	);
+}
+
+//-----------------------------------------------------------------------------------------
+function fDbRemoveToGo(
+	$vArgs
+) 
+{
+	global $vConn;
+	
+	$q = sprintf("
+		DELETE FROM tblYMToGo
+		WHERE ym_user_id = %d
+			AND business_id = '%s'
+		", $vArgs['ym_user_id'], $vArgs['business_id']);
+	
+	return mysqli_query($vConn, $q);	
 }
