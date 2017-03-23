@@ -80,9 +80,8 @@ function fRegister()
 				});
 			} else if (data.errno == kDbDuplicate) {
 				bootbox.alert("Email has been used. Please select another email.");
-			}
-			else {
-				alert("Registration has error with errno: " + data.errno);
+			} else {
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});

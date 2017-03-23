@@ -204,7 +204,7 @@ function fGetData() {
 				
 				fRefresh();
 			} else {
-				alert("Error with errno: " + data.errno);
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});

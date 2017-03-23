@@ -26,7 +26,11 @@ switch ($_POST['cmd']) {
 		break;
 	
 	case 'add_togo':
-		fSessionWall($_POST);
+		if (!fSessionWall($_POST)) {
+			echo json_encode(array('errno' => $kDbInvalidSession));
+			exit;
+		}
+		
 		echo json_encode(fAddTogo($_POST));
 		break;
 	

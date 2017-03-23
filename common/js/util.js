@@ -829,3 +829,16 @@ function fGetDisplay(v)
     return v ? v : '--';
 }
 
+//-----------------------------------------------------------------------------------------
+function fHandleSysErrs(vErrNo)
+{
+    if (vErrNo == kDbInvalidSession)
+    {
+        bootbox.alert("Your session is invalid, please login again.", function ()
+        {
+            fGoto('../login/');
+        });
+    }
+	else 
+		bootbox.alert("Error with errno: " + vErrNo);
+}

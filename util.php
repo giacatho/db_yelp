@@ -25,7 +25,7 @@ function fDbGetUserByEmail(
 	
 	$res = mysqli_query($vConn, $q);
 	
-	if (count($res) == 0)
+	if (mysqli_num_rows($res) == 0)
 		return null;
 	
 	return mysqli_fetch_assoc($res);
@@ -82,13 +82,16 @@ function fSessionWall(
 	&$vArgs
 )
 {
+	
+	if (!isset($vArgs['session_id']))
+		return false;
+	
 	$vSession = fDbGetSession($vArgs['session_id']);
 	
-	if ($vSession == null)
+	if (!$vSession)
 		return false;
 	
 	$vArgs['ym_user_id'] = $vSession['ym_user_id'];
-
 	return true;
 }
 
@@ -106,7 +109,7 @@ function fDbGetSession(
 	
 	$res = mysqli_query($vConn, $q);
 	
-	if (count($res) == 0)
+	if (mysqli_num_rows($res) == 0)
 		return null;
 	
 	return mysqli_fetch_assoc($res);

@@ -1,4 +1,5 @@
 //-----------------------------------------------------------------------------------------
+var kDbInvalidSession = 539;
 var kDbSuccess = 540;
 var kDbError = 541;
 var kDbDuplicate = 542;

@@ -69,9 +69,8 @@ function fLogin()
 				});
 			} else if (data.errno == kDbNotFound) {
 				bootbox.alert("Email and/or Password is incorrect.")
-			}
-			else {
-				bootbox.alert("Login has error with errno: " + data.errno);
+			} else {
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});

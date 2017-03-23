@@ -72,7 +72,7 @@ function fGetData()
 				
 				fRefresh();
 			} else {
-				alert("Error with errno: " + data.errno);
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});
@@ -171,9 +171,8 @@ function fRemoveToGo(
 					page.data.splice(vIndex, 1);
 				
 				fRefresh();
-				// bootbox.alert("Adding to ToGo list is successfully.");
 			} else {
-				alert("Error with errno: " + data.errno);
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});

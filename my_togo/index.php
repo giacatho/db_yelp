@@ -7,15 +7,19 @@ $vConn = mysqli_connect($kDbHost, $kDbUser,	$kDbPassword, $kDbDatabase);
 // Got UTF8 problem with result, http://stackoverflow.com/a/15183835/1343667
 mysqli_set_charset($vConn, "utf8");
 
+if (!fSessionWall($_POST)) 
+{
+	echo json_encode(array('errno' => $kDbInvalidSession));
+	exit;
+}
+
 //------------------------------------------------------------------------------
 switch ($_POST['cmd']) {
 	case 'get_data':
-		fSessionWall($_POST);
 		echo json_encode(fGetData($_POST));
 		break;
 	
 	case 'remove_togo':
-		fSessionWall($_POST);
 		echo json_encode(fRemoveToGo($_POST));
 		break;
 	
