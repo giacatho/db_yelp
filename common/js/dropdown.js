@@ -270,3 +270,24 @@ function fCreateDropCities(
     });
 }
 
+//-----------------------------------------------------------------------------------------
+//function fCreateDropOrderBy(
+//	vList
+//)
+//{
+//	var i, vToArr;
+//    vToArr = [];
+//	for (i=0; i<vList.length; i++)
+//	{
+//		vToArr.push({
+//			key: vList[i],
+//			text: vList[i]
+//		});
+//	}
+//	
+//	fCreateGenericDrop({
+//        id: 'drop_order',
+//        default_text: 'Order By',
+//        data: vToArr
+//    });
+//}

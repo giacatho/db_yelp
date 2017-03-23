@@ -23,7 +23,8 @@ function fBoot()
 			term: null,
 			category: '',
 			state: '',
-			city: ''
+			city: '',
+			order_by: ''
 		},
 		load_more: null
 	};
@@ -84,6 +85,16 @@ function fCreateDropdowns()
 	fCreateDropCategories(page.categories);
 	fCreateDropStates(page.cities);
 	fCreateDropCities(page.cities);
+	
+	fCreateGenericDrop({
+        id: 'drop_order_by',
+        default_text: 'Order By',
+		data: [
+			{ key: 'name', text: 'Name' },
+			{ key: 'stars', text: 'Stars' },
+			{ key: 'review_count', text: 'Review Count' }
+		]
+    });
 }
 
 //-----------------------------------------------------------------------------------------
@@ -138,6 +149,16 @@ function fBindDropdowns()
                     return;
 
                 page.search.city = vKey;
+                fGetData2();
+			
+			case 'drop_order_by':
+				if (vKey == 0)
+                    vKey = '';
+                
+                if (vKey == page.search.order_by)
+                    return;
+
+                page.search.order_by = vKey;
                 fGetData2();
 		}
 	});

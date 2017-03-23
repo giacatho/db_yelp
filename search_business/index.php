@@ -57,6 +57,20 @@ function fGetData(
 }
 
 //-----------------------------------------------------------------------------------------
+function fOrderByString (
+	$vArgs
+)
+{
+	if ($vArgs['search']['order_by'] == '')
+		return ' a.stars DESC, a.name ';
+	
+	if ($vArgs['search']['order_by'] == 'stars' || $vArgs['search']['order_by'] == 'review_count') 
+		return ' a.' . $vArgs['search']['order_by'] . ' DESC ';
+	
+	return ' a.name ';
+}
+
+//-----------------------------------------------------------------------------------------
 function fGetWhereString (
 	$vArgs
 )
@@ -98,9 +112,10 @@ function fDbSearchBusiness(
 			a.latitude, a.longitude 
 		FROM tblBusiness a
 		WHERE %s
-		ORDER BY a.stars DESC, a.name
+		ORDER BY %s
 		LIMIT %d, %d", 
 			fGetWhereString($vArgs),
+			fOrderByString($vArgs),
 			$vArgs['fetch_offset'], $vArgs['fetch_len']);
 	
 	$result = mysqli_query($vConn, $q);
