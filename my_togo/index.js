@@ -94,7 +94,7 @@ function fRefresh()
 			vBody += vHtmlSearchItem
 					.replace(/<b_business_id>/, o.business_id)
 					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, o.categories)
+					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
 					.replace(/<b_address>/, o.full_address)
 					.replace(/<b_star>/, o.stars)
 					.replace(/<b_review_count>/, o.review_count);

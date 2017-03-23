@@ -19,6 +19,8 @@ function fBoot()
 	page = {
 		review_summary: null,
 		nearby_businesses: [],
+		also_reviewed_businesses: [],
+		also_tipped_businesses: [],
 		reviews: [],
 		fetch : {
 			len: 10,
@@ -205,12 +207,12 @@ function fRenderNearbyBusinesses() {
 		{
 			o = page.nearby_businesses[i];
 			vBody += vHtmlNearbyBusinessItem
+					.replace(/<b_business_id>/, o.business_id)
 					.replace(/<b_label>/, kLabels[i % kLabels.length])
 					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, o.categories)
+					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
 					.replace(/<b_address>/, o.full_address)
-					.replace(/<b_star>/, o.stars)
-					.replace(/<b_review_count>/, o.review_count);
+					.replace(/<b_star>/, o.stars);
 		}
 	}
 	
@@ -270,6 +272,8 @@ function fGetRecommendedBusinesses()
 				
 				fRenderAlsoReviewedBusinesses();
 				fRenderAlsoTippedBusinesses();
+				
+				fBindRowActions();
 			} else {
 				alert("Error with errno: " + data.errno);
 			}
@@ -289,8 +293,9 @@ function fRenderAlsoReviewedBusinesses()
 		{
 			o = page.also_reviewed_businesses[i];
 			vBody += vHtmlBusinessItem
+					.replace(/<b_business_id>/, o.business_id)
 					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, o.categories)
+					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
 					.replace(/<b_address>/, o.full_address)
 					.replace(/<b_star>/, o.stars);
 		}
@@ -311,8 +316,9 @@ function fRenderAlsoTippedBusinesses()
 		{
 			o = page.also_tipped_businesses[i];
 			vBody += vHtmlBusinessItem
+					.replace(/<b_business_id>/, o.business_id)
 					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, o.categories)
+					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
 					.replace(/<b_address>/, o.full_address)
 					.replace(/<b_star>/, o.stars);
 		}
@@ -401,6 +407,7 @@ function fRefresh()
 //---------------------------------------------------------------------------------------
 function fOnPostRefresh() 
 {
+	fBindRowActions();
 	fBindLoadMore();
 }
 
@@ -412,4 +419,33 @@ function fBindLoadMore()
     {
         fGetData();
     });
+}
+
+//---------------------------------------------------------------------------------------
+function fBindRowActions()
+{
+	var vCmd, vKey, o;
+	
+	$('.row-events').unbind('click');
+	$('.row-events').click(function(e) {
+		vCmd = $(e.target).attr('cmd');
+		vKey = $(e.currentTarget).attr('key');
+		
+		o = fFindInArray(page.nearby_businesses, 'business_id', vKey);
+		if (!o)
+			o = fFindInArray(page.also_reviewed_businesses, 'business_id', vKey);
+		if (!o)
+			o = fFindInArray(page.also_tipped_businesses, 'business_id', vKey);
+		
+		if (!o)
+			return;
+		
+		switch (vCmd)
+		{
+			case 'view':
+				fUpdateContext('business', o);
+				fGoto('../view_business/');
+				break;
+		}
+	});
 }

@@ -1,18 +1,17 @@
 var kLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 var vHtmlNearbyBusinessItem = "\
-	<div class='list-group-item'>\
+	<div key='<b_business_id>' class='list-group-item row-events'>\
 		<div class='media'>\
 			<div class='pull-left'>\
-				<span class='btn btn-primary'><b_label></span>\
+				<span class='btn btn-primary btn-circle'><b_label></span>\
 			</div>\
 			<div class='media-body'>\
-				<h4 class='media-heading'></span><b_name> <small><b_category></small></h4>\
+				<h4 class='media-heading'><span cmd='view' style='color: #dd4814;cursor:pointer;'><b_name></span> <small><b_category></small></h4>\
 				<div class='media-content'>\
 					<i class='fa fa-map-marker'></i> <b_address>\
 					<ul class='list-unstyled'>\
 						<li>Stars: <i class='fa fa-skype'></i> <b_star></li>\
-						<li>Review Count: <i class='fa fa-mobile'></i> <b_review_count></li>\
 					</ul>\
 				</div>\
 			</div>\
@@ -21,10 +20,10 @@ var vHtmlNearbyBusinessItem = "\
 ";
 
 var vHtmlBusinessItem = "\
-	<div class='list-group-item'>\
+	<div key='<b_business_id>' class='list-group-item row-events'>\
 		<div class='media'>\
 			<div class='media-body'>\
-				<h4 class='media-heading'></span><b_name> <small><b_category></small></h4>\
+				<h4 class='media-heading'><span cmd='view' style='color: #dd4814;cursor:pointer;'><b_name></span> <small><b_category></small></h4>\
 				<div class='media-content'>\
 					<i class='fa fa-map-marker'></i> <b_address>\
 					<ul class='list-unstyled'>\

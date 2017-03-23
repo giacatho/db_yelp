@@ -830,6 +830,26 @@ function fGetDisplay(v)
 }
 
 //-----------------------------------------------------------------------------------------
+function fYelpCategoriesToStr(
+	vYelpCategory
+)
+{
+	var vCategories, vCat, i, vRet;
+	
+	vCategories = vYelpCategory.substr(1, vYelpCategory.length - 2).split(',');
+	
+	vRet = [];
+	for (i = 0; i < vCategories.length; i++) {
+		// Yelp text: u'Grocery'
+		vCat = vCategories[i].trim();
+		
+		vRet.push(vCat.substr(2, vCat.length - 3));
+	}
+	
+	return vRet.join(', ');
+}
+
+//-----------------------------------------------------------------------------------------
 function fHandleSysErrs(vErrNo)
 {
     if (vErrNo == kDbInvalidSession)
