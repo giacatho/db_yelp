@@ -242,7 +242,7 @@ function fInitContext()
 {
     try
     {
-        return JSON.parse(localStorage[document.domain]);
+        return JSON.parse(localStorage["yelp_me"]);
     }
     catch (e)
     {
@@ -259,14 +259,17 @@ function fUpdateContext(
 {
     var o;
 
-	if (!(document.domain in localStorage))
-		o = {}
+	if (!("yelp_me" in localStorage))
+		o = {};
 	else
-		o = JSON.parse(localStorage[document.domain]);
+		o = JSON.parse(localStorage["yelp_me"]);
 	
-	o[vKey] = fCloneObject(vObj);
+	if (vObj === null && vKey in o)
+		delete o[vKey];
+	else
+		o[vKey] = fCloneObject(vObj);
 
-    localStorage[document.domain] = JSON.stringify(o);
+    localStorage["yelp_me"] = JSON.stringify(o);
 	
     return true;
 }
