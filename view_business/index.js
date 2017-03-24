@@ -203,20 +203,22 @@ function fGetNearbyBusinesses(
 function fRenderNearbyBusinesses() {
 	var i, o, vBody;
 	
+	if (page.nearby_businesses.length == 0) {
+		$('#nearby-business-items').html("No Data");
+		return;
+	}
+	
 	vBody = '';
-	if (page.nearby_businesses.length !== 0) 
+	for (i = 0; i < page.nearby_businesses.length; i++) 
 	{
-		for (i = 0; i < page.nearby_businesses.length; i++) 
-		{
-			o = page.nearby_businesses[i];
-			vBody += vHtmlNearbyBusinessItem
-					.replace(/<b_business_id>/, o.business_id)
-					.replace(/<b_label>/, kLabels[i % kLabels.length])
-					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
-					.replace(/<b_address>/, o.full_address)
-					.replace(/<b_star>/, o.stars);
-		}
+		o = page.nearby_businesses[i];
+		vBody += vHtmlNearbyBusinessItem
+				.replace(/<b_business_id>/, o.business_id)
+				.replace(/<b_label>/, kLabels[i % kLabels.length])
+				.replace(/<b_name>/, o.name)
+				.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
+				.replace(/<b_address>/, o.full_address)
+				.replace(/<b_star>/, o.stars);
 	}
 	
 	$('#nearby-business-items').html(vBody);
@@ -289,19 +291,20 @@ function fRenderAlsoReviewedBusinesses()
 {
 	var i, o, vBody;
 	
+	if (page.also_reviewed_businesses.length == 0) {
+		$('#also-reviewed-items').html("No Data");
+	} 
+	
 	vBody = '';
-	if (page.also_reviewed_businesses.length !== 0) 
+	for (i = 0; i < page.also_reviewed_businesses.length; i++) 
 	{
-		for (i = 0; i < page.also_reviewed_businesses.length; i++) 
-		{
-			o = page.also_reviewed_businesses[i];
-			vBody += vHtmlBusinessItem
-					.replace(/<b_business_id>/, o.business_id)
-					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
-					.replace(/<b_address>/, o.full_address)
-					.replace(/<b_star>/, o.stars);
-		}
+		o = page.also_reviewed_businesses[i];
+		vBody += vHtmlBusinessItem
+				.replace(/<b_business_id>/, o.business_id)
+				.replace(/<b_name>/, o.name)
+				.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
+				.replace(/<b_address>/, o.full_address)
+				.replace(/<b_star>/, o.stars);
 	}
 	
 	$('#also-reviewed-items').html(vBody);
@@ -312,23 +315,22 @@ function fRenderAlsoTippedBusinesses()
 {
 	var i, o, vBody;
 	
-	vBody = '';
-	if (page.also_tipped_businesses.length !== 0) 
-	{
-		for (i = 0; i < page.also_tipped_businesses.length; i++) 
-		{
-			o = page.also_tipped_businesses[i];
-			vBody += vHtmlBusinessItem
-					.replace(/<b_business_id>/, o.business_id)
-					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
-					.replace(/<b_address>/, o.full_address)
-					.replace(/<b_star>/, o.stars);
-		}
-	} else {
-		vBody += '<div>No Data</div>';
-	}
+	if (page.also_tipped_businesses.length == 0) {
+		$('#also-tipped-items').html("No Data");
+		return;
+	} 
 	
+	vBody = '';
+	for (i = 0; i < page.also_tipped_businesses.length; i++) 
+	{
+		o = page.also_tipped_businesses[i];
+		vBody += vHtmlBusinessItem
+				.replace(/<b_business_id>/, o.business_id)
+				.replace(/<b_name>/, o.name)
+				.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
+				.replace(/<b_address>/, o.full_address)
+				.replace(/<b_star>/, o.stars);
+	}
 	$('#also-tipped-items').html(vBody);
 }
 
@@ -452,6 +454,7 @@ function fRenderStatistics(
 	
 	if (vStatisticsData.length == 0) {
 		$('#' + vDivId).html("No Data");
+		return;
 	}
 		
 	start_year = parseInt(vStatisticsData[0]['year']);
