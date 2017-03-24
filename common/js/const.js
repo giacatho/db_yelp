@@ -7,6 +7,10 @@ var kDbNotFound = 543;
 
 //-----------------------------------------------------------------------------------------
 var kHtmlSignedInMenu = '\
+	<div class="container-fluid">\
+		<div class="navbar-header">\
+			<a class="navbar-brand" href="../search_business/">Yelp!Me</a>\
+		</div>\
 		<div class="navbar-collapse collapse">\
 			<ul class="nav navbar-nav">\
 				<li><a href="../search_business/">Search Business</a></li>\
@@ -30,9 +34,14 @@ var kHtmlSignedInMenu = '\
 				</li>\
 			</ul>\
 		</div>\
+	</div>\
 ';
 
 var kHtmlGuestMenu = '\
+	<div class="container-fluid">\
+		<div class="navbar-header">\
+			<a class="navbar-brand" href="../search_business/">Yelp!Me</a>\
+		</div>\
 		<div class="navbar-collapse collapse">\
 			<ul class="nav navbar-nav">\
 				<li><a href="../search_business/">Search Business</a></li>\
@@ -51,4 +60,5 @@ var kHtmlGuestMenu = '\
 				<li><a href="../register/">Registration</a></li>\
 			</ul>\
 		</div>\
+	</div>\
 ';
