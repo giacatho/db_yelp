@@ -22,6 +22,7 @@ function fBoot()
 		also_reviewed_businesses: [],
 		also_tipped_businesses: [],
 		reviews: [],
+		review_count_by_month: null,
 		fetch : {
 			len: 10,
 			offset: 0
@@ -39,6 +40,7 @@ function fRun()
 	// fGetNearbyBusinesses(); // This is called from Google Map callback
 	fGetRecommendedBusinesses();
 	fGetData();
+	fGetReviewStats();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -190,7 +192,7 @@ function fGetNearbyBusinesses(
 				fRenderNearbyBusinesses();
 				fRenderNearbyMap();
 			} else {
-				alert("Error with errno: " + data.errno);
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});
@@ -275,7 +277,7 @@ function fGetRecommendedBusinesses()
 				
 				fBindRowActions();
 			} else {
-				alert("Error with errno: " + data.errno);
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});
@@ -362,7 +364,7 @@ function fGetData() {
 				
 				fRefresh();
 			} else {
-				alert("Error with errno: " + data.errno);
+				fHandleSysErrs(data.errno);
 			}
 		}
 	});
@@ -409,6 +411,99 @@ function fOnPostRefresh()
 {
 	fBindRowActions();
 	fBindLoadMore();
+}
+
+//---------------------------------------------------------------------------------------
+function fGetReviewStats()
+{
+	$.ajax({
+		type: "POST",
+		url: "index.php",
+		data: {
+			cmd: "get_review_count_by_month",
+			business_id: g.business.business_id
+		},
+		success: function (data) {
+			data = JSON.parse(data);
+			
+			if (data.errno === kDbSuccess) 
+			{
+				page.review_count_by_month = data.data.review_count_by_month;
+				
+				fRenderReviewCountByMonth();
+			} else {
+				fHandleSysErrs(data.errno);
+			}
+		}
+	});
+}
+
+//---------------------------------------------------------------------------------------
+function fRenderReviewCountByMonth()
+{
+	var year, month, start_year, end_year, start_month, end_month, xAxis, yAxis;
+	
+	if (page.review_count_by_month.length == 0) {
+		$('#review-statistics-chart').html("No Data");
+	}
+		
+	start_year = parseInt(page.review_count_by_month[0]['year']);
+	start_month = parseInt(page.review_count_by_month[0]['month']);
+	end_year = parseInt(page.review_count_by_month[page.review_count_by_month.length-1]['year']);
+	end_month = parseInt(page.review_count_by_month[page.review_count_by_month.length-1]['month']);
+	
+	xAxis = [];
+	yAxis = [];
+	for (year = start_year; year <= end_year; year++) {
+		for (month = 1; month <= 12; month++) {
+			if (year == start_year && month < start_month)
+				continue;
+			
+			if (year == end_year && month > end_month)
+				continue;
+			
+			xAxis.push(month + "/" + year);
+			yAxis.push(fGetReviewCount(page.review_count_by_month, year, month));
+		}
+	}
+	
+	Highcharts.chart('review-statistics-chart', {
+        title: {
+            text: 'Review Count By Month'
+        },
+        xAxis: {
+            categories: xAxis
+        },
+        yAxis: {
+            title: {
+                text: 'Review Count'
+            },
+            plotLines: [{
+                color: '#808080'
+            }]
+        },
+        series: [{
+            name: 'Review',
+            data: yAxis
+        }]
+    });
+}
+
+//---------------------------------------------------------------------------------------
+function fGetReviewCount(
+	vAllReviewCounts,
+	vYear,
+	vMonth
+)
+{
+	var i;
+	for (i = 0; i < vAllReviewCounts.length; i++)
+	{
+		if (vAllReviewCounts[i]['year'] == vYear && vAllReviewCounts[i]['month'] == vMonth)
+			return parseInt(vAllReviewCounts[i]['review_count']);
+	}
+	
+	return 0;
 }
 
 //---------------------------------------------------------------------------------------

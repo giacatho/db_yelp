@@ -16,7 +16,7 @@ switch ($_POST['cmd']) {
 	case 'get_reviews':
 		echo json_encode(fGetReviews($_POST));
 		break;
-	
+		
 	case 'get_nearby_businesses':
 		echo json_encode(fGetNearbyBusinesses($_POST));
 		break;
@@ -34,6 +34,10 @@ switch ($_POST['cmd']) {
 		echo json_encode(fAddTogo($_POST));
 		break;
 	
+	case 'get_review_count_by_month':
+		echo json_encode(fGetReviewCountByMonth($_POST));
+		break;
+		
 	default:
 		echo json_encode(array (
 			'errno' => 'no_cmd'
@@ -269,4 +273,38 @@ function fDbAddToGo(
 			timestamp = %d", $vArgs['ym_user_id'], $vArgs['business_id'], $time, $time);
 	
 	return mysqli_query($vConn, $q);	
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetReviewCountByMonth(
+	$vArgs
+)
+{
+	global $kDbSuccess;
+	
+	return array(
+        'errno' => $kDbSuccess,
+        'data' => array(
+            'review_count_by_month' => fGetDbReviewCountByMonth($vArgs),
+        )
+    );
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetDbReviewCountByMonth(
+	$vArgs
+)
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT YEAR(`date`) AS `year`, MONTH(`date`) AS `month`, COUNT(*) review_count
+		FROM tblReview
+		WHERE business_id = '%s'
+		GROUP BY `year`, `month`
+		ORDER BY `year`, `month`", $vArgs['business_id']);
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
 }
