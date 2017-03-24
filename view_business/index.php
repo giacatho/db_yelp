@@ -34,8 +34,8 @@ switch ($_POST['cmd']) {
 		echo json_encode(fAddTogo($_POST));
 		break;
 	
-	case 'get_review_count_by_month':
-		echo json_encode(fGetReviewCountByMonth($_POST));
+	case 'get_statistics':
+		echo json_encode(fGetStatistics($_POST));
 		break;
 		
 	default:
@@ -276,7 +276,7 @@ function fDbAddToGo(
 }
 
 //-----------------------------------------------------------------------------------------
-function fGetReviewCountByMonth(
+function fGetStatistics(
 	$vArgs
 )
 {
@@ -286,6 +286,7 @@ function fGetReviewCountByMonth(
         'errno' => $kDbSuccess,
         'data' => array(
             'review_count_by_month' => fGetDbReviewCountByMonth($vArgs),
+			'tip_count_by_month' => fGetDbTipCountByMonth($vArgs)
         )
     );
 }
@@ -298,8 +299,27 @@ function fGetDbReviewCountByMonth(
 	global $vConn;
 	
 	$q = sprintf("
-		SELECT YEAR(`date`) AS `year`, MONTH(`date`) AS `month`, COUNT(*) review_count
+		SELECT YEAR(`date`) AS `year`, MONTH(`date`) AS `month`, COUNT(*) count
 		FROM tblReview
+		WHERE business_id = '%s'
+		GROUP BY `year`, `month`
+		ORDER BY `year`, `month`", $vArgs['business_id']);
+	
+	$result = mysqli_query($vConn, $q);
+
+    return fDbGrabDb($result);
+}
+
+//-----------------------------------------------------------------------------------------
+function fGetDbTipCountByMonth(
+	$vArgs
+)
+{
+	global $vConn;
+	
+	$q = sprintf("
+		SELECT YEAR(`date`) AS `year`, MONTH(`date`) AS `month`, COUNT(*) count
+		FROM tblTip
 		WHERE business_id = '%s'
 		GROUP BY `year`, `month`
 		ORDER BY `year`, `month`", $vArgs['business_id']);

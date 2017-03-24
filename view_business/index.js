@@ -23,6 +23,7 @@ function fBoot()
 		also_tipped_businesses: [],
 		reviews: [],
 		review_count_by_month: null,
+		tip_count_by_month: null,
 		fetch : {
 			len: 10,
 			offset: 0
@@ -37,10 +38,10 @@ function fRun()
     fBindBtns();
 	fRenderBusinessDetails();
 	fGetReviewSummary();
-	// fGetNearbyBusinesses(); // This is called from Google Map callback
+	// fGetNearbyBusinesses(); // function called back from Google Map, declare in html
 	fGetRecommendedBusinesses();
 	fGetData();
-	fGetReviewStats();
+	fGetStatistics();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -414,13 +415,13 @@ function fOnPostRefresh()
 }
 
 //---------------------------------------------------------------------------------------
-function fGetReviewStats()
+function fGetStatistics()
 {
 	$.ajax({
 		type: "POST",
 		url: "index.php",
 		data: {
-			cmd: "get_review_count_by_month",
+			cmd: "get_statistics",
 			business_id: g.business.business_id
 		},
 		success: function (data) {
@@ -429,8 +430,10 @@ function fGetReviewStats()
 			if (data.errno === kDbSuccess) 
 			{
 				page.review_count_by_month = data.data.review_count_by_month;
+				page.tip_count_by_month = data.data.tip_count_by_month;
 				
-				fRenderReviewCountByMonth();
+				fRenderStatistics(page.review_count_by_month, "review-statistics-chart", "Review");
+				fRenderStatistics(page.tip_count_by_month, "tip-statistics-chart", "Tip");
 			} else {
 				fHandleSysErrs(data.errno);
 			}
@@ -439,18 +442,22 @@ function fGetReviewStats()
 }
 
 //---------------------------------------------------------------------------------------
-function fRenderReviewCountByMonth()
+function fRenderStatistics(
+	vStatisticsData,
+	vDivId,
+	vLabel
+)
 {
-	var year, month, start_year, end_year, start_month, end_month, xAxis, yAxis;
+	var year, month, start_year, end_year, start_month, end_month, xAxis, yAxis, vStatisticsData;
 	
-	if (page.review_count_by_month.length == 0) {
-		$('#review-statistics-chart').html("No Data");
+	if (vStatisticsData.length == 0) {
+		$('#' + vDivId).html("No Data");
 	}
 		
-	start_year = parseInt(page.review_count_by_month[0]['year']);
-	start_month = parseInt(page.review_count_by_month[0]['month']);
-	end_year = parseInt(page.review_count_by_month[page.review_count_by_month.length-1]['year']);
-	end_month = parseInt(page.review_count_by_month[page.review_count_by_month.length-1]['month']);
+	start_year = parseInt(vStatisticsData[0]['year']);
+	start_month = parseInt(vStatisticsData[0]['month']);
+	end_year = parseInt(vStatisticsData[vStatisticsData.length-1]['year']);
+	end_month = parseInt(vStatisticsData[vStatisticsData.length-1]['month']);
 	
 	xAxis = [];
 	yAxis = [];
@@ -463,44 +470,44 @@ function fRenderReviewCountByMonth()
 				continue;
 			
 			xAxis.push(month + "/" + year);
-			yAxis.push(fGetReviewCount(page.review_count_by_month, year, month));
+			yAxis.push(fGetMonthCount(vStatisticsData, year, month));
 		}
 	}
 	
-	Highcharts.chart('review-statistics-chart', {
+	Highcharts.chart(vDivId, {
         title: {
-            text: 'Review Count By Month'
+            text: vLabel + ' Count By Month'
         },
         xAxis: {
             categories: xAxis
         },
         yAxis: {
             title: {
-                text: 'Review Count'
+                text: vLabel + ' Count'
             },
             plotLines: [{
                 color: '#808080'
             }]
         },
         series: [{
-            name: 'Review',
+            name: vLabel,
             data: yAxis
         }]
     });
 }
 
 //---------------------------------------------------------------------------------------
-function fGetReviewCount(
-	vAllReviewCounts,
+function fGetMonthCount(
+	vStatisticsData,
 	vYear,
 	vMonth
 )
 {
 	var i;
-	for (i = 0; i < vAllReviewCounts.length; i++)
+	for (i = 0; i < vStatisticsData.length; i++)
 	{
-		if (vAllReviewCounts[i]['year'] == vYear && vAllReviewCounts[i]['month'] == vMonth)
-			return parseInt(vAllReviewCounts[i]['review_count']);
+		if (vStatisticsData[i]['year'] == vYear && vStatisticsData[i]['month'] == vMonth)
+			return parseInt(vStatisticsData[i]['count']);
 	}
 	
 	return 0;
