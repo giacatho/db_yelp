@@ -57,7 +57,7 @@ function fGetData(
 }
 
 //-----------------------------------------------------------------------------------------
-function fOrderByString (
+function fGetOrderByString (
 	$vArgs
 )
 {
@@ -115,7 +115,7 @@ function fDbSearchBusiness(
 		ORDER BY %s
 		LIMIT %d, %d", 
 			fGetWhereString($vArgs),
-			fOrderByString($vArgs),
+			fGetOrderByString($vArgs),
 			$vArgs['fetch_offset'], $vArgs['fetch_len']);
 	
 	$result = mysqli_query($vConn, $q);
@@ -149,7 +149,7 @@ function fDbGetCities()
 		SELECT DISTINCT city, state
 		FROM tblBusiness
 		WHERE state <> '' AND city <> ''
-		ORDER BY state");
+		ORDER BY state, city");
 	
 	$result = mysqli_query($vConn, $q);
 
