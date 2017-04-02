@@ -85,24 +85,26 @@ function fRefresh()
 	
 	$('#load_more').remove();
 	
-	vBody = '';
-	if (page.data.length !== 0) 
-	{
-		for (i = 0; i < page.data.length; i++) 
-		{
-			o = page.data[i];
-			vBody += vHtmlSearchItem
-					.replace(/<b_business_id>/, o.business_id)
-					.replace(/<b_name>/, o.name)
-					.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
-					.replace(/<b_address>/, o.full_address)
-					.replace(/<b_star>/, o.stars)
-					.replace(/<b_review_count>/, o.review_count);
-		}
-
-		if (page.load_more)
-			vBody += vHtmlLoadMore;
+	if (page.data.length == 0) {
+		$('#search-result-items').html("<h4>No Data. Please view some business and Add ToGo list first.<h4>");
+		return;
 	}
+	
+	vBody = '';
+	for (i = 0; i < page.data.length; i++) 
+	{
+		o = page.data[i];
+		vBody += vHtmlSearchItem
+				.replace(/<b_business_id>/, o.business_id)
+				.replace(/<b_name>/, o.name)
+				.replace(/<b_category>/, fYelpCategoriesToStr(o.categories))
+				.replace(/<b_address>/, o.full_address)
+				.replace(/<b_star>/, o.stars)
+				.replace(/<b_review_count>/, o.review_count);
+	}
+
+	if (page.load_more)
+		vBody += vHtmlLoadMore;
 	
 	$('#search-result-items').html(vBody);
 	
