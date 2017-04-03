@@ -51,7 +51,11 @@ function fDbGetWeeklyTrends(
 		FROM (
 			SELECT business_id, user_id,`date`
 			FROM tblTip
-			WHERE `date` > DATE_SUB(DATE('2016-08-02 00:00:00'), INTERVAL 1 week)
+			WHERE `date` > DATE_SUB(DATE('2016-07-19'), INTERVAL 1 week)
+			UNION
+			SELECT business_id, user_id,`date`
+			FROM tblReview
+			WHERE `date` > DATE_SUB(DATE('2016-07-19'), INTERVAL 1 week)
 		) a
 		JOIN tblBusiness b
 			ON a.business_id = b.business_id
@@ -78,7 +82,11 @@ function fDbGetMonthlyTrends(
 		FROM (
 			SELECT business_id, user_id,`date`
 			FROM tblTip
-			WHERE `date` > DATE_SUB(DATE('2016-08-02 00:00:00'), INTERVAL 1 month)
+			WHERE `date` > DATE_SUB(DATE('2016-07-19'), INTERVAL 1 month)
+			UNION
+			SELECT business_id, user_id,`date`
+			FROM tblReview
+			WHERE `date` > DATE_SUB(DATE('2016-07-19'), INTERVAL 1 week)
 		) a
 		JOIN tblBusiness b
 			ON a.business_id = b.business_id
