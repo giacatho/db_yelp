@@ -15,7 +15,7 @@ var kHtmlSignedInMenu = '\
 			<ul class="nav navbar-nav">\
 				<li><a href="../search_business/">Search Business</a></li>\
 				<li><a href="../my_togo/">My ToGo</a></li>\
-				<li><a href="../top_business/">Top Business</a></li>\
+				<li><a href="../trending_business/">Trending Business</a></li>\
 				<li class="dropdown"><a class="dropdown-toggle"\
 					data-toggle="dropdown" href="#">Analytics <span class="caret"></span></a>\
 					<ul class="dropdown-menu">\
