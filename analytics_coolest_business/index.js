@@ -104,5 +104,5 @@ function fRenderChart(
 		data: vData
 	}];
 	
-	Highcharts.chart('coolest_restaurant_chart', data);
+	Highcharts.chart('coolest_business_chart', data);
 }
