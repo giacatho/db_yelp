@@ -20,7 +20,7 @@ var kHtmlSignedInMenu = '\
 				<li class="dropdown"><a class="dropdown-toggle"\
 					data-toggle="dropdown" href="#">Analytics <span class="caret"></span></a>\
 					<ul class="dropdown-menu">\
-						<li><a href="../analytics_coolest_restaurants/">Coolest Restaurants</a></li>\
+						<li><a href="../analytics_coolest_business/">Coolest Business</a></li>\
 						<li><a href="role?action=list">Best Reviews</a></li>\
 					</ul>\
 				</li>\
@@ -51,7 +51,7 @@ var kHtmlGuestMenu = '\
 				<li class="dropdown"><a class="dropdown-toggle"\
 					data-toggle="dropdown" href="#">Analytics <span class="caret"></span></a>\
 					<ul class="dropdown-menu">\
-						<li><a href="../analytics_collest_restaurants/">Coolest Restaurants</a></li>\
+						<li><a href="../analytics_coolest_business/">Coolest Business</a></li>\
 						<li><a href="role?action=list">Best Reviews</a></li>\
 					</ul>\
 				</li>\
