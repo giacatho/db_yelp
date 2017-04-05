@@ -35,7 +35,7 @@ function fGetCoolestRestaurants()
         type: 'GET',
         url: 'index.php',
         data: {
-            cmd: 'get_coolest_business'
+            cmd: 'get_best_review_business'
         },
         success: function (vData)
         {
@@ -66,7 +66,7 @@ function fRenderChart(
             type: 'pie'
         },
         title: {
-            text: 'Coolest Businesses Rank'
+            text: 'Best Review Category Percentage'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -104,5 +104,5 @@ function fRenderChart(
 		data: vData
 	}];
 	
-	Highcharts.chart('coolest_business_chart', data);
+	Highcharts.chart('business_chart', data);
 }
