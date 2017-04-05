@@ -1,6 +1,6 @@
 <?php
-require_once '../const.php';
-require_once '../util.php';
+require_once '../common/php/const.php';
+require_once '../common/php/util.php';
 
 //------------------------------------------------------------------------------
 $vConn = mysqli_connect($kDbHost, $kDbUser,	$kDbPassword, $kDbDatabase);
@@ -8,8 +8,8 @@ $vConn = mysqli_connect($kDbHost, $kDbUser,	$kDbPassword, $kDbDatabase);
 mysqli_set_charset($vConn, "utf8");
 
 switch ($_GET['cmd']) {
-	case 'get_top_state_review':
-		echo json_encode(fGetTopStateReview($_GET));
+	case 'get_top_review_state':
+		echo json_encode(fGetTopReviewState($_GET));
 		break;
 	
 	default:
@@ -19,12 +19,12 @@ switch ($_GET['cmd']) {
 }
 
 //------------------------------------------------------------------------------
-function fGetTopStateReview(
+function fGetTopReviewState(
 	$vArgs
 ) {
 	global $kDbSuccess, $kDbError;
 	
-	$vCategories = fDbGetTopStateReview();
+	$vCategories = fDbGetTopReviewState();
 	
     return array(
         'errno' => $kDbSuccess,
@@ -38,7 +38,7 @@ function fGetTopStateReview(
 }
 
 //-----------------------------------------------------------------------------------------
-function fDbGetTopStateReview(
+function fDbGetTopReviewState(
 )
 {
 	global $vConn;

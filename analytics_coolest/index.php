@@ -1,6 +1,6 @@
 <?php
-require_once '../const.php';
-require_once '../util.php';
+require_once '../common/php/const.php';
+require_once '../common/php/util.php';
 
 //------------------------------------------------------------------------------
 $vConn = mysqli_connect($kDbHost, $kDbUser,	$kDbPassword, $kDbDatabase);

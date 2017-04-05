@@ -66,7 +66,7 @@ function fRenderChart(
             type: 'pie'
         },
         title: {
-            text: 'Coolest Category Percentage'
+            text: 'Category And Coolest Review Business Percentage'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

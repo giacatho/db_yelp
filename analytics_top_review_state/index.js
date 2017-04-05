@@ -18,7 +18,7 @@ function fBoot()
 function fRun()
 {
     fBindBtns();
-	fGetCoolestRestaurants();
+	fGetTopReviewStates();
 }
 
 //-----------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ function fBindBtns()
 }
 
 //-----------------------------------------------------------------------------------------
-function fGetCoolestRestaurants()
+function fGetTopReviewStates()
 {
 	$('#wait').show();
 	
@@ -35,7 +35,7 @@ function fGetCoolestRestaurants()
         type: 'GET',
         url: 'index.php',
         data: {
-            cmd: 'get_top_state_review'
+            cmd: 'get_top_review_state'
         },
         success: function (vData)
         {
@@ -56,7 +56,7 @@ function fRenderChart(
 	vCategories	
 )
 {
-	var data, vCategory, i, vData;
+	var data, vCategory, i, vData, vPercentage;
 	
 	data = {
 		chart: {
@@ -65,7 +65,7 @@ function fRenderChart(
 			plotShadow: false
 		},
 		title: {
-			text: 'Category and Top Reviewed States',
+			text: 'Category And Most Review State'
 		},
 		tooltip: {
 			pointFormat:  '{series.name}: <b> {point.usa_state} </b> <br/> <b>{point.y}%</b>'  
@@ -78,7 +78,7 @@ function fRenderChart(
 				showInLegend: true,
 				startAngle: -90,
 				endAngle: 90,
-				center: ['50%', '75%']
+				center: ['50%', '60%']
 			}
 		}
 	};
@@ -86,10 +86,11 @@ function fRenderChart(
 	vData = [];
 	for (i = 0; i < vCategories.length; i++) {
 		vCategory = vCategories[i];
+		vPercentage = parseInt(vCategory['state_review_count']) * 100/parseInt(vCategory['total_review_count']);
 		
 		vData.push({
 			name: vCategory['category'],
-			y: parseInt(vCategory['state_review_count'])/parseInt(vCategory['total_review_count']),
+			y: parseFloat(vPercentage.toFixed(2)),
 			usa_state: vCategory['state']
 		});
 	}
