@@ -73,7 +73,11 @@ function fRenderChart(
 		plotOptions: {
 			pie: {
 				dataLabels: {
-					enabled: false
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.usa_state} ({point.percentage:.1f}%)',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
 				},
 				showInLegend: true,
 				startAngle: -90,
