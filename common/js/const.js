@@ -22,7 +22,7 @@ var kHtmlSignedInMenu = '\
 					<ul class="dropdown-menu">\
 						<li><a href="../analytics_coolest/">Coolest Business</a></li>\
 						<li><a href="../analytics_best_review/">Best Reviewed</a></li>\
-						<li><a href="../analytics_top_review_state/">Most Review State</a></li>\
+						<li><a href="../analytics_most_review_state/">Most Review State</a></li>\
 					</ul>\
 				</li>\
 				<li><a href="../about/">About</a></li>\
@@ -54,7 +54,7 @@ var kHtmlGuestMenu = '\
 					<ul class="dropdown-menu">\
 						<li><a href="../analytics_coolest/">Coolest Business</a></li>\
 						<li><a href="../analytics_best_review/">Best Reviewed</a></li>\
-						<li><a href="../analytics_top_review_state/">Most Review State</a></li>\
+						<li><a href="../analytics_most_review_state/">Most Review State</a></li>\
 					</ul>\
 				</li>\
 				<li><a href="../about/">About</a></li>\
